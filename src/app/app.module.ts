@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -11,13 +12,14 @@ import {MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSidenavModule, MatTableModule, MatTabsModule,
-    MatToolbarModule, MatInputModule,} from '@angular/material';
+    MatToolbarModule, MatInputModule} from '@angular/material';
 import { TopbarComponent } from './topbar/topbar.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { MainComponent } from './main/main.component';
 import { YoutubePlayerModule } from 'ng2-youtube-player';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { HakuPipe } from './haku/haku.pipe';
+import {VideosService} from './services/videos.service';
 
 @NgModule({
   declarations: [
@@ -53,8 +55,9 @@ import { HakuPipe } from './haku/haku.pipe';
       ScrollDispatchModule,
       FlexLayoutModule,
       YoutubePlayerModule,
+      HttpClientModule
   ],
-  providers: [],
+  providers: [VideosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

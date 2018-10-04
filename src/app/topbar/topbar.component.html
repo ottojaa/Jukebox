@@ -1,10 +1,13 @@
-<div fxLayout="row" fxLayoutAlign="center">
+<div fxLayout="row" fxLayoutAlign="start center" class="margin">
     <mat-toolbar>
         <form class="example-form">
             <mat-form-field class="testi">
-                <input id="haku" matInput placeholder="Search for songs" value="">
-                <mat-icon matSuffix>search</mat-icon>
+                <input id="haku" matInput placeholder="Search for songs" [(ngModel)]="data.query" name="query">
+                <mat-list>
+                    <mat-list-item *ngFor="let videoid of videoids"></mat-list-item>
+                </mat-list>
             </mat-form-field>
+            <button (click)="searchForm()" mat-button style="margin-left: 40px !important;"><mat-icon matSuffix>search</mat-icon></button>
         </form>
     </mat-toolbar>
 </div>
