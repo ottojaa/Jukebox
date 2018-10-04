@@ -1,0 +1,52 @@
+.mat-card{
+    padding: 0px;
+}
+.container{
+    width: 1280px;
+    justify-content: space-around;
+    margin:auto;
+}
+.vasen{
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2) !important;
+    background: #ffffff;
+    width: 100%;
+}
+.oikee{
+    background: rgba(0,0,0,0.4);
+    width: 100%;
+}
+.oikeakolumni{
+    height: 100%;
+    border-left: 1px solid black;
+}
+.vasenkolumni{
+    height: 100%;
+}
+.keskii{
+    width: 100%;
+    height: 800px;
+
+}
+.keski{
+
+}
+.oikeaeka{
+    text-align:center;
+    background: #ad224ee3;
+    color: white;
+    box-shadow: 0px 0px 0px rgba(0,0,0,0.4) !important;
+}
+.oikeatoka{
+    border-top: 1px solid rgb(0, 0, 0);
+    text-align:center;
+    background: rgb(16, 16, 16);
+    color: white;
+    height: 50%;
+    box-shadow: 0px 0px 0px rgba(0,0,0,0.2) !important;
+}
+.harmaa{
+    background: rgba(167, 115, 111, 0.16);
+}
+.valkonenteksti{
+    color: white;
+}
