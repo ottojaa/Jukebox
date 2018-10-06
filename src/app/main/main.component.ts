@@ -11,24 +11,4 @@ import {VideosService} from '../services/videos.service';
 export class MainComponent {
     constructor(public data: VideosService) {
     }
-    id = '2r5IbVJRvH4';
-    private player;
-    public ytEvent;
-
-    onStateChange(event) {
-        this.ytEvent = event.data;
-        console.log(event.data);
-    }
-
-    savePlayer(player) {
-        this.player = player;
-    }
-
-    playVideo() {
-        this.player.playVideo();
-    }
-
-    pauseVideo() {
-        this.player.pauseVideo();
-    }
 }

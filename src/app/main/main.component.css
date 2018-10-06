@@ -1,5 +1,5 @@
 .mat-card{
-    padding: 0px;
+    padding: 0px !important;
 }
 .container{
     width: 1280px;

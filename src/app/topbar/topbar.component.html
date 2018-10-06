@@ -3,12 +3,68 @@
         <form class="example-form">
             <mat-form-field class="testi">
                 <input id="haku" matInput placeholder="Search for songs" [(ngModel)]="data.query" name="query">
-                <mat-list>
-                    <mat-list-item *ngFor="let videoid of videoids"></mat-list-item>
-                </mat-list>
+
             </mat-form-field>
             <button (click)="searchForm()" mat-button style="margin-left: 40px !important;"><mat-icon matSuffix>search</mat-icon></button>
         </form>
     </mat-toolbar>
+</div>
+<div class="container" fxLayoutAlign="center center">
+    <div fxLayout="row" fxLayoutAlign="center start" class="keskii">
+        <mat-card class="vasen">
+            <mat-list *ngIf="data.results" style="overflow-y: auto;">
+                <mat-list-item class="item" *ngFor="let video of data.results">
+                    <img *ngIf="video.snippet.thumbnails" matListAvatar [src]="video.snippet.thumbnails.default.url">
+                    <h3 matLine> {{ video.snippet.title }}</h3>
+                    <p matLine> <span> {{video.snippet.description}}</span></p>
+                    <button mat-button><mat-icon>library_add</mat-icon></button>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+        </mat-card>
+        <div fxLayout="column" fxLayoutAlign="space-between stretch" class="oikeakolumni">
+            <mat-card class="oikeaeka">
+                <youtube-player
+                        [videoId]="id"
+                        [width]="640"
+                        [height]="480"
+                        (ready)="savePlayer($event)"
+                        (change)="onStateChange($event)"
+                ></youtube-player>
+                <div class="buttons">
+                    <button mat-button (click)="playVideo()">
+                        <mat-icon>play_circle_outline</mat-icon>
+                    </button>
+                    <button mat-button (click)="pauseVideo()">
+                        <mat-icon>pause_circle_outline</mat-icon>
+                    </button>
+                </div>
+                <div class="col-md-10">
+                    <section class="panel panel-classss">
+                        <div class="panel-body">
+                            <pre>{{ ytEvent }}</pre>
+                        </div>
+                    </section>
+                </div>
+            </mat-card>
+            <mat-card class="oikeatoka">
+                <p style="padding: 20px">Playlisti alle</p>
+                <mat-list>
+                    <mat-list-item class="valkonenteksti"> Musavideo 1 </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="valkonenteksti"> Musavideo 2 </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="valkonenteksti"> Musavideo 3 </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="valkonenteksti"> Musavideo 4 </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="valkonenteksti"> Musavideo 5 </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="valkonenteksti"> Musavideo 6 </mat-list-item>
+                    <mat-divider></mat-divider>
+                </mat-list>
+            </mat-card>
+        </div>
+    </div>
 </div>
 

@@ -10,13 +10,38 @@ import {HttpClient} from '@angular/common/http';
     encapsulation: ViewEncapsulation.None
 })
 export class TopbarComponent {
-
+    id = '2r5IbVJRvH4';
+    private player;
+    public ytEvent;
+    public snippet: any;
     public token: string;
+
     constructor(public data: VideosService) {
     }
+
     searchForm() {
-        this.data.getVideos();
-        this.token = this.data.nextPageToken;
+        this.data.getVideos().subscribe(data => {
+            this.data.results = data['items'];
+            console.log(this.data.results);
+        });
+    }
+    addToQueue() {
     }
 
+    onStateChange(event) {
+        this.ytEvent = event.data;
+        console.log(event.data);
+    }
+
+    savePlayer(player) {
+        this.player = player;
+    }
+
+    playVideo() {
+        this.player.playVideo();
+    }
+
+    pauseVideo() {
+        this.player.pauseVideo();
+    }
 }

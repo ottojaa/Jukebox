@@ -16,10 +16,81 @@
     width: 80%;
 
 }
+.item{
+    background: white;
+}
+.mat-list-item{
+    animation: slide-up 0.7s ease;
+}
 .margin{
     margin-top: 20px;
 }
 .example-form{
     width: 100%;
     margin-left: 100px;
+}
+.mat-card{
+    padding: 0px !important;
+    width: 640px !important;
+}
+.container{
+    width: 1280px;
+    justify-content: space-around;
+    margin:auto;
+}
+.vasen{
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2) !important;
+    background: #ffffff;
+    width: 100%;
+    animation: slide-up 0.7s ease;
+}
+.oikee{
+    background: rgba(0,0,0,0.4);
+    width: 100%;
+}
+.oikeakolumni{
+    height: 100%;
+}
+.vasenkolumni{
+    height: 100%;
+    animation: slide-up 0.4s ease;
+}
+.keskii{
+    width: 100%;
+    height: 800px;
+
+}
+
+.mat-list{
+    padding-top: 0px !important;
+}
+.oikeaeka{
+    text-align:center;
+    background: #ad224ee3;
+    color: white;
+    box-shadow: 0px 0px 0px rgba(0,0,0,0.4) !important;
+}
+.oikeatoka{
+    border-top: 1px solid rgb(0, 0, 0);
+    text-align:center;
+    background: rgb(16, 16, 16);
+    color: white;
+    height: 50%;
+    box-shadow: 0px 0px 0px rgba(0,0,0,0.2) !important;
+}
+.harmaa{
+    background: rgba(167, 115, 111, 0.16);
+}
+.valkonenteksti{
+    color: white !important;
+}
+@keyframes slide-up {
+    0% {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }

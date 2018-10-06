@@ -10,30 +10,14 @@ export class VideosService {
     }
 
     public key: 'AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI';
-    query: string;
-    results = [];
-    videoids = new Array();
-    nextPageToken: string;
-    searchDone: false;
+    public query: string;
+    results = new Array();
 
-    public getVideos() {
+    getVideos() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
             ',id&order=date&maxResults=8&q=' + this.query;
         console.log(finalURL);
-
-        return this.http.get<Videolist>(finalURL).subscribe(response => {
-
-            console.log(response);
-            const ytresults = response['items'];
-            const nextToken = response['nextPageToken'];
-            console.log(nextToken);
-            this.nextPageToken = ytresults.nextPageToken;
-            this.results = response['items'];
-            ytresults.forEach(res => {
-                this.videoids.push(res.id.videoId);
-            });
-            return this.videoids;
-        });
+        return this.http.get<Videolist>(finalURL);
+        console.log(finalURL);
     }
-
 }
