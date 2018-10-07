@@ -17,6 +17,7 @@ export class TopbarComponent implements OnInit {
     public lista: any = [];
     public token: string;
     videoId = new Array();
+    i: string;
     public jono = [];
     public playerStatus: string;
 
@@ -24,6 +25,9 @@ export class TopbarComponent implements OnInit {
     }
 
     searchForm() {
+        this.data.results = [];
+        this.videoId = [];
+        console.log(this.data.results);
         this.data.getVideos().subscribe(data => {
             this.data.results = data['items'];
             console.log(this.data.results);
@@ -37,28 +41,33 @@ export class TopbarComponent implements OnInit {
     onStateChange(event) {
         this.ytEvent = event.data;
         console.log(this.ytEvent);
-        if (this.ytEvent = 0) {
+        if (this.ytEvent === 0) {
             this.playerStatus = 'Not loaded';
         }
-        if (this.ytEvent = 1) {
+        if (this.ytEvent === 1) {
             this.playerStatus = 'Now playing';
         }
-        if (this.ytEvent = 2) {
+        if (this.ytEvent === 2) {
             this.playerStatus = 'Paused';
         }
-        if (this.ytEvent = 3) {
+        if (this.ytEvent === 3) {
             this.playerStatus = 'Buffering';
+        }
+        if (event.data === 0) {
+            this.id = this.jono[0];
+            this.player.loadVideoById(this.id);
+            this.jono.splice(0, 1);
+            console.log(this.jono);
         }
         console.log(event.data);
     }
 
     passIndex(index) {
         this.jono.push(this.videoId[index]);
-        console.log(index);
-        let num = index;
-        const i = this.videoId[index];
-        console.log(i);
-        this.data.getQueue(i).subscribe(data => {
+        console.log(this.jono);
+        this.i = this.videoId[index];
+        console.log(this.i);
+        this.data.getQueue(this.i).subscribe(data => {
             console.log(data['items']);
             this.lista.push(data['items']);
             console.log(this.lista);

@@ -18,7 +18,7 @@ export class VideosService {
 
     getVideos() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
-            ',id&order=date&maxResults=8&q=' + this.query;
+            ',id&order=viewCount&maxResults=8&q=' + this.query;
         console.log(finalURL);
         return this.http.get<Videolist>(finalURL);
     }
