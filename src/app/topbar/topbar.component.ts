@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {VideosService} from '../services/videos.service';
 import {ViewEncapsulation} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Videolist} from '../Models/videolist.model';
 
 @Component({
     selector: 'app-topbar',
@@ -13,7 +14,7 @@ export class TopbarComponent implements OnInit {
     id = '2r5IbVJRvH4';
     private player;
     public ytEvent;
-    public lista: any;
+    public lista: any = [];
     public token: string;
     videoId = new Array();
     public jono = [];
@@ -53,13 +54,14 @@ export class TopbarComponent implements OnInit {
 
     passIndex(index) {
         this.jono.push(this.videoId[index]);
-        console.log(this.jono);
+        console.log(index);
+        let num = index;
         const i = this.videoId[index];
         console.log(i);
         this.data.getQueue(i).subscribe(data => {
             console.log(data['items']);
-            this.data.lista = data['items'];
-            console.log(this.data.lista);
+            this.lista.push(data['items']);
+            console.log(this.lista);
         });
     }
 

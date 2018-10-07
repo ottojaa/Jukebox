@@ -5,7 +5,9 @@
                 <input id="haku" matInput placeholder="Search for songs" [(ngModel)]="data.query" name="query">
 
             </mat-form-field>
-            <button (click)="searchForm()" mat-button style="margin-left: 40px !important;"><mat-icon matSuffix>search</mat-icon></button>
+            <button (click)="searchForm()" mat-button style="margin-left: 40px !important;">
+                <mat-icon matSuffix>search</mat-icon>
+            </button>
         </form>
     </mat-toolbar>
 </div>
@@ -16,8 +18,10 @@
                 <mat-list-item class="item" *ngFor="let video of data.results, let i = index">
                     <img *ngIf="video.snippet.thumbnails" matListAvatar [src]="video.snippet.thumbnails.default.url">
                     <h3 matLine> {{ video.snippet.title }}</h3>
-                    <p matLine> <span> {{video.snippet.description}}</span></p>
-                    <button mat-button (click)="passIndex(i)"><mat-icon>library_add</mat-icon></button>
+                    <p matLine><span> {{video.snippet.description}}</span></p>
+                    <button mat-button (click)="passIndex(i)">
+                        <mat-icon>library_add</mat-icon>
+                    </button>
                     <mat-divider></mat-divider>
                 </mat-list-item>
             </mat-list>
@@ -48,12 +52,14 @@
                 </div>
             </mat-card>
             <mat-card class="oikeatoka">
-                <p style="padding: 20px">Playlisti alle</p>
-                <mat-list-item class="item" *ngFor="let video of data.lista, let i = index">
-                    <img *ngIf="video.snippet.thumbnails" matListAvatar [src]="video.snippet.thumbnails.default.url">
-                    <h3 matLine> {{ video.snippet.title }}</h3>
-                    <mat-divider></mat-divider>
-                </mat-list-item>
+                <mat-list *ngIf="lista">
+                    <p style="padding: 20px">Playlist</p>
+                    <mat-list-item class="white" *ngFor="let item of lista, let i = index">
+                        <img *ngIf="item[0].snippet.thumbnails" matListAvatar [src]="item[0].snippet.thumbnails.default.url">
+                        <p matLine *ngIf="item[0].snippet.title"><span> {{item[0].snippet.title}} </span></p>
+                        <mat-divider class="white"></mat-divider>
+                    </mat-list-item>
+                </mat-list>
             </mat-card>
         </div>
     </div>

@@ -12,6 +12,7 @@ export class VideosService {
     public key: 'AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI';
     public query: string;
     results = new Array();
+    items: any;
     public lista: any;
     public jono = [];
 
