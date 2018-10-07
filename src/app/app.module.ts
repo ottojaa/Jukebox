@@ -26,7 +26,7 @@ import {VideosService} from './services/videos.service';
     AppComponent,
     TopbarComponent,
     MainComponent,
-    HakuPipe
+    HakuPipe,
   ],
   imports: [
     BrowserModule,

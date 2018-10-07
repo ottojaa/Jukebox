@@ -13,11 +13,11 @@
     <div fxLayout="row" fxLayoutAlign="center start" class="keskii">
         <mat-card class="vasen">
             <mat-list *ngIf="data.results" style="overflow-y: auto;">
-                <mat-list-item class="item" *ngFor="let video of data.results">
+                <mat-list-item class="item" *ngFor="let video of data.results, let i = index">
                     <img *ngIf="video.snippet.thumbnails" matListAvatar [src]="video.snippet.thumbnails.default.url">
                     <h3 matLine> {{ video.snippet.title }}</h3>
                     <p matLine> <span> {{video.snippet.description}}</span></p>
-                    <button mat-button><mat-icon>library_add</mat-icon></button>
+                    <button mat-button (click)="passIndex(i)"><mat-icon>library_add</mat-icon></button>
                     <mat-divider></mat-divider>
                 </mat-list-item>
             </mat-list>
@@ -42,27 +42,18 @@
                 <div class="col-md-10">
                     <section class="panel panel-classss">
                         <div class="panel-body">
-                            <pre>{{ ytEvent }}</pre>
+                            <pre>{{ playerStatus }}</pre>
                         </div>
                     </section>
                 </div>
             </mat-card>
             <mat-card class="oikeatoka">
                 <p style="padding: 20px">Playlisti alle</p>
-                <mat-list>
-                    <mat-list-item class="valkonenteksti"> Musavideo 1 </mat-list-item>
+                <mat-list-item class="item" *ngFor="let video of data.lista, let i = index">
+                    <img *ngIf="video.snippet.thumbnails" matListAvatar [src]="video.snippet.thumbnails.default.url">
+                    <h3 matLine> {{ video.snippet.title }}</h3>
                     <mat-divider></mat-divider>
-                    <mat-list-item class="valkonenteksti"> Musavideo 2 </mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item class="valkonenteksti"> Musavideo 3 </mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item class="valkonenteksti"> Musavideo 4 </mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item class="valkonenteksti"> Musavideo 5 </mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item class="valkonenteksti"> Musavideo 6 </mat-list-item>
-                    <mat-divider></mat-divider>
-                </mat-list>
+                </mat-list-item>
             </mat-card>
         </div>
     </div>

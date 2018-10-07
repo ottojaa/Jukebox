@@ -12,12 +12,20 @@ export class VideosService {
     public key: 'AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI';
     public query: string;
     results = new Array();
+    public lista: any;
+    public jono = [];
 
     getVideos() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
             ',id&order=date&maxResults=8&q=' + this.query;
         console.log(finalURL);
         return this.http.get<Videolist>(finalURL);
-        console.log(finalURL);
+    }
+
+    getQueue(index) {
+        const URL = 'https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet&id='
+            + index;
+        console.log(URL);
+        return this.http.get<Videolist>(URL);
     }
 }

@@ -9,12 +9,15 @@ import {HttpClient} from '@angular/common/http';
     styleUrls: ['./topbar.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class TopbarComponent {
+export class TopbarComponent implements OnInit {
     id = '2r5IbVJRvH4';
     private player;
     public ytEvent;
-    public snippet: any;
+    public lista: any;
     public token: string;
+    videoId = new Array();
+    public jono = [];
+    public playerStatus: string;
 
     constructor(public data: VideosService) {
     }
@@ -23,14 +26,41 @@ export class TopbarComponent {
         this.data.getVideos().subscribe(data => {
             this.data.results = data['items'];
             console.log(this.data.results);
+            this.data.results.forEach(res => {
+                this.videoId.push(res.id.videoId);
+                console.log(this.videoId);
+            });
         });
-    }
-    addToQueue() {
     }
 
     onStateChange(event) {
         this.ytEvent = event.data;
+        console.log(this.ytEvent);
+        if (this.ytEvent = 0) {
+            this.playerStatus = 'Not loaded';
+        }
+        if (this.ytEvent = 1) {
+            this.playerStatus = 'Now playing';
+        }
+        if (this.ytEvent = 2) {
+            this.playerStatus = 'Paused';
+        }
+        if (this.ytEvent = 3) {
+            this.playerStatus = 'Buffering';
+        }
         console.log(event.data);
+    }
+
+    passIndex(index) {
+        this.jono.push(this.videoId[index]);
+        console.log(this.jono);
+        const i = this.videoId[index];
+        console.log(i);
+        this.data.getQueue(i).subscribe(data => {
+            console.log(data['items']);
+            this.data.lista = data['items'];
+            console.log(this.data.lista);
+        });
     }
 
     savePlayer(player) {
@@ -43,5 +73,8 @@ export class TopbarComponent {
 
     pauseVideo() {
         this.player.pauseVideo();
+    }
+
+    ngOnInit() {
     }
 }
