@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {VideosService} from '../services/videos.service';
 import {ViewEncapsulation} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Videolist} from '../Models/videolist.model';
+import { ResizedEvent } from 'angular-resize-event/resized-event';
+
 
 @Component({
     selector: 'app-topbar',
@@ -16,14 +16,26 @@ export class TopbarComponent implements OnInit {
     public ytEvent;
     public lista: any = [];
     public token: string;
+    public duplicates: any = [];
     videoId = new Array();
+    searchDone = false;
+    width: any;
+    height: any;
+    title: any;
     i: string;
     public jono = [];
+    addToQueue: boolean;
     public playerStatus: string;
 
     constructor(public data: VideosService) {
     }
-
+    onResized(event: ResizedEvent): void {
+        this.width = event.newWidth;
+        this.height = event.newHeight;
+        console.log(((this.height - 320) * 0.75));
+        document.querySelector('[title="YouTube video player"]').style.width = this.width + 'px';
+        document.querySelector('[title="YouTube video player"]').style.height = ((this.width) * 0.75) + 'px';
+    }
     searchForm() {
         this.data.results = [];
         this.videoId = [];
@@ -31,14 +43,18 @@ export class TopbarComponent implements OnInit {
         this.data.getVideos().subscribe(data => {
             this.data.results = data['items'];
             console.log(this.data.results);
+            this.searchDone = true;
             this.data.results.forEach(res => {
                 this.videoId.push(res.id.videoId);
-                console.log(this.videoId);
             });
         });
     }
+    onPlayerReady(event) {
+        this.title = event.target.getVideoData().title;
+    }
 
     onStateChange(event) {
+        this.title = event.target.getVideoData().title;
         this.ytEvent = event.data;
         console.log(this.ytEvent);
         if (this.ytEvent === 0) {
@@ -46,6 +62,12 @@ export class TopbarComponent implements OnInit {
         }
         if (this.ytEvent === 1) {
             this.playerStatus = 'Now playing';
+            const i = document.getElementById('status');
+            i.innerHTML = '';
+            i.style.padding = '0px';
+            i.style.borderRadius = '0px';
+            i.style.width = '0%';
+            i.style.opacity = '1';
         }
         if (this.ytEvent === 2) {
             this.playerStatus = 'Paused';
@@ -53,25 +75,74 @@ export class TopbarComponent implements OnInit {
         if (this.ytEvent === 3) {
             this.playerStatus = 'Buffering';
         }
-        if (event.data === 0) {
+        if (event.data === 0 && this.jono[0]) {
             this.id = this.jono[0];
+            this.width = 640;
+            this.height = 480;
             this.player.loadVideoById(this.id);
             this.jono.splice(0, 1);
+            this.lista.splice(0, 1);
+            this.title = event.target.getVideoData().title;
             console.log(this.jono);
         }
         console.log(event.data);
     }
 
+    skipCurrent() {
+        if (this.jono[0]) {
+            this.id = this.jono[0];
+            this.player.loadVideoById(this.id);
+            this.jono.splice(0, 1);
+            this.lista.splice(0, 1);
+        } else {
+            const i = document.getElementById('status');
+            i.innerHTML = 'Playlist end reached';
+            i.style.background = 'rgba(236, 0, 107, 0.47)';
+            i.style.padding = '4px';
+            i.style.borderRadius = '5px';
+            i.style.width = '30%';
+            i.style.opacity = '1';
+        }
+    }
+
     passIndex(index) {
-        this.jono.push(this.videoId[index]);
-        console.log(this.jono);
+        this.addToQueue = true;
         this.i = this.videoId[index];
+        if (this.jono.length < 10) {
+            if (!this.jono.includes(this.i)) {
+                this.jono.push(this.i);
+                console.log(this.jono);
+                document.getElementById('listEnd').innerHTML = '';
+                document.getElementById('listEnd').style.margin = '0px';
+            } else {
+                this.addToQueue = false;
+                document.getElementById('listEnd').innerHTML = 'Video is already on list!';
+                document.getElementById('listEnd').style.margin = '10px';
+            }
+        }
+        console.log(this.jono);
         console.log(this.i);
-        this.data.getQueue(this.i).subscribe(data => {
-            console.log(data['items']);
-            this.lista.push(data['items']);
-            console.log(this.lista);
-        });
+        if (this.addToQueue === true) {
+            this.data.getQueue(this.i).subscribe(data => {
+                console.log(this.lista);
+                console.log(this.jono[index]);
+                if (this.lista.length < 10) {
+                    this.lista.push(data['items']);
+                }
+                if (this.lista.length === 10) {
+                    document.getElementById('listEnd').innerHTML = 'Playlist Full!';
+                    document.getElementById('listEnd').style.margin = '10px';
+                }
+            });
+        }
+    }
+
+    deleteEntry(index) {
+        this.lista.splice(index, 1);
+        this.jono.splice(index, 1);
+        console.log(this.lista);
+        document.getElementById('listEnd').innerHTML = '';
+        document.getElementById('listEnd').style.margin = '0px';
     }
 
     savePlayer(player) {
@@ -80,6 +151,8 @@ export class TopbarComponent implements OnInit {
 
     playVideo() {
         this.player.playVideo();
+        this.width = 640;
+        this.height = 480;
     }
 
     pauseVideo() {
@@ -87,5 +160,14 @@ export class TopbarComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.width = 640;
+        this.height = 480;
+        this.data.getTopVideos().subscribe(data => {
+            this.data.results = data['items'];
+            console.log(this.data.results);
+            this.data.results.forEach(res => {
+                this.videoId.push(res.id.videoId);
+            });
+        });
     }
 }

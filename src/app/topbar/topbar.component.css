@@ -5,7 +5,7 @@
     -moz-box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.15);
     box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.15);
     color: white;
-    font-family: "Roboto";
+    font-family: "Montserrat" !important;
     top: -20px;
     padding-top: 10px;
     height: 100px !important;
@@ -14,8 +14,21 @@
 .testi{
     flex: 1;
     width: 80%;
-
 }
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.mat-button{
+    line-height: 70px !important;
+}
+.iframe{
+    width: 100%;
+}
+.buttons .mat-icon{
+    font-size: 38px !important;
+}
+
 .item{
     background: white;
 }
@@ -23,7 +36,7 @@
     animation: slide-up 0.7s ease;
 }
 .margin{
-    margin-top: 20px;
+    margin-top: 50px;
 }
 .example-form{
     width: 100%;
@@ -34,18 +47,40 @@
 }
 .mat-card{
     padding: 0px !important;
-    width: 640px !important;
 }
 .container{
-    width: 1280px;
-    justify-content: space-around;
-    margin:auto;
 }
+#listEnd{
+    color: #c34444;
+    transition: all 0.5s ease-out;
+}
+
+.searchResault{
+    background-color: white;
+    z-index: 10;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    padding: 20px !important;
+    text-align: center;
+}
+
+.soittolista{
+    background-color: rgb(16, 16, 16);
+    z-index: 10;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    padding: 20px !important;
+
+}
+
 .vasen{
     box-shadow: 0px 3px 15px rgba(0,0,0,0.2) !important;
     background: #ffffff;
-    width: 100%;
     animation: slide-up 0.7s ease;
+    height: 800px;
+    overflow-y: auto;
 }
 .oikee{
     background: rgba(0,0,0,0.4);
@@ -59,7 +94,6 @@
     animation: slide-up 0.4s ease;
 }
 .keskii{
-    width: 100%;
     height: 800px;
 
 }
@@ -69,31 +103,37 @@
 }
 .oikeaeka{
     text-align:center;
-    background: #ad224ee3;
+    background: #22242a;
     color: white;
+    height: 800px;
     box-shadow: 0px 0px 0px rgba(0,0,0,0.4) !important;
+
+
 }
 .oikeatoka{
     border-top: 1px solid rgb(0, 0, 0);
     text-align:center;
-    background: rgb(16, 16, 16);
+    background: #22242a;
     color: white;
-    height: 50%;
+    height: auto;
     box-shadow: 0px 0px 0px rgba(0,0,0,0.2) !important;
+    overflow-y: auto;
 }
+
 .harmaa{
     background: rgba(167, 115, 111, 0.16);
 }
 .valkonenteksti{
     color: white !important;
 }
+
+
 @keyframes slide-up {
     0% {
         opacity: 0;
-        transform: translateX(20px);
     }
     100% {
         opacity: 1;
-        transform: translateX(0);
+
     }
 }

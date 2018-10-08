@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
     "@types/youtube": "0.0.34",
+    "angular-resize-event": "^0.4.4",
     "core-js": "^2.5.4",
     "menu": "^0.2.5",
     "rxjs": "^6.3.3",

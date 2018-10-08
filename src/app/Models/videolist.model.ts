@@ -6,6 +6,7 @@ export class Videolist implements Deserialize<Videolist> {
     thumbnails: any;
     title: string;
     items: any;
+    channelTitle: any;
     id: any;
     snippet: any;
 
