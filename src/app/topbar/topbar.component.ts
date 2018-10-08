@@ -11,11 +11,10 @@ import {ResizedEvent} from 'angular-resize-event/resized-event';
     encapsulation: ViewEncapsulation.None
 })
 export class TopbarComponent implements OnInit {
-    id = '2r5IbVJRvH4';
+    id = '_Yhyp-_hX2s';
     private player;
     public ytEvent;
     public lista: any = [];
-    public token: string;
     public current: any = [];
     videoId = new Array();
     searchDone = false;
@@ -23,6 +22,7 @@ export class TopbarComponent implements OnInit {
     height: any;
     title: any;
     i: string;
+    public messageSuccess: any;
     public jono = [];
     public pageLoaded = false;
     addToQueue: boolean;
@@ -84,8 +84,9 @@ export class TopbarComponent implements OnInit {
         }
         if (event.data === 0 && this.jono[0]) {
             this.id = this.jono[0];
-            this.width = 640;
-            this.height = 480;
+            this.data.getQueue(this.id).subscribe(res => {
+                this.data.current = res['items'];
+            });
             this.player.loadVideoById(this.id);
             this.jono.splice(0, 1);
             this.lista.splice(0, 1);
@@ -103,6 +104,9 @@ export class TopbarComponent implements OnInit {
             this.jono.splice(0, 1);
             this.lista.splice(0, 1);
         } else {
+            this.data.getQueue(this.id).subscribe(res => {
+                this.data.current = res['items'];
+            });
             const i = document.getElementById('status');
             i.innerHTML = 'Playlist end reached';
             i.style.background = 'rgba(236, 0, 107, 0.47)';
@@ -114,10 +118,11 @@ export class TopbarComponent implements OnInit {
     }
 
     autoResize() {
+        const width = document.getElementById('vasen').clientWidth;
         const k = document.querySelector('[title="YouTube video player"]') as HTMLElement;
-        k.style.width = document.getElementById('vasen').style.width;
+        k.style.width = this.width + 'px';
         k.style.height = ((this.width) * 0.75) + 'px';
-        console.log(k.style.width);
+        console.log(document.getElementById('vasen').clientWidth);
     }
 
     passIndex(index) {
@@ -166,8 +171,6 @@ export class TopbarComponent implements OnInit {
 
     playVideo() {
         this.player.playVideo();
-        this.width = 640;
-        this.height = 480;
     }
 
     pauseVideo() {
@@ -175,8 +178,6 @@ export class TopbarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.width = 640;
-        this.height = 480;
         this.data.getTopVideos().subscribe(data => {
             this.data.results = data['items'];
             console.log(this.data.results);
@@ -188,7 +189,11 @@ export class TopbarComponent implements OnInit {
             this.data.current = res['items'];
         });
         this.pageLoaded = true;
-        setTimeout(this.autoResize, 2000);
+        this.messageSuccess = true;
 
+        setTimeout(() => {
+            this.autoResize();
+            console.log('testi');
+        }, 700);
     }
 }

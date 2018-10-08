@@ -18,6 +18,12 @@
 * {
     font-family: 'Montserrat', sans-serif;
 }
+.green{
+    color: green;
+}
+.red{
+    color: red;
+}
 .nowplaying {
     word-wrap: break-word;
     font-weight: 400 !important;

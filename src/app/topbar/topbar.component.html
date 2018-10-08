@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="start center" class="margin">
     <mat-toolbar fxFlex="50">
-        <div class="logo">
-            <img src="/src/assets/img/nuke.png" alt="nukebox" height="80" width="96">
+        <div class="logo" style="z-index: 99">
+            <img src="assets/img/nuke.png" alt="nukebox" height="108" width="128">
         </div>
         <form class="example-form">
             <mat-form-field class="testi">
@@ -37,11 +37,9 @@
                     </mat-list-item>
                 </mat-list>
             </mat-card>
-            <mat-card class="oikeaeka" fxFlex="50">
+            <mat-card class="oikeaeka" fxLayout="column">
                 <youtube-player
                         [videoId]="id"
-                        [width]="640"
-                        [height]="480"
                         (ready)="savePlayer($event)"
                         (change)="onStateChange($event)">
                 </youtube-player>
@@ -56,21 +54,41 @@
                         <mat-icon [inline]="true">skip_next</mat-icon>
                     </button>
                 </div>
-                <mat-divider></mat-divider>
-                <div>
-                    <section class="panel panel-classss">
-                        <div class="panel-body">
-                            <pre style="height:50px;"*ngIf="playerStatus">{{ playerStatus }}</pre>
-                            <pre *ngIf="!playerStatus"> Player Ready </pre>
+
+
+                <mat-list class="nowplaying"  fxLayout="column" *ngFor="let video of data.current" fxLayoutAlign="start end">
+                    <mat-divider></mat-divider>
+                    <div style="margin-top: 5%">
+                        <p></p>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="center center" fxFlexFill>
+                        <div fxLayout="column" fxLayoutAlign="center center">
+                            <h3 matLine style="font-weight: 600; margin: 5px;"> {{ video.snippet.title }}</h3>
+                            <p matLine style="margin: 5px;"><span style="color: #ff0101"> Uploaded by: {{video.snippet.channelTitle}}</span></p>
                         </div>
-                        <div *ngIf="data.results">
+                        <div fxLayout="column" fxFlex="30" fxLayoutAlign="center center">
+                            <section class="panel panel-classss">
+                                <div class="panel-body">
+                                    <pre style="height:30px;"*ngIf="playerStatus">{{ playerStatus }}</pre>
+                                    <pre *ngIf="!playerStatus"> Player Ready </pre>
+                                </div>
+                                <div *ngIf="data.results">
+                                </div>
+                            </section>
                         </div>
-                    </section>
-                </div>
-                <mat-list class="nowplaying" *ngFor="let video of data.current">
-                    <h6 matLine>
-                        {{ video.snippet.description }}
-                    </h6>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start end" fxFlexFill style="min-width: 80%;">
+                        <div fxLayout="column" fxFlex="33" fxLayoutAlign="center end">
+                            <p> {{video.statistics.likeCount | numbers}} </p><mat-icon class="green">thumb_up</mat-icon>
+                        </div>
+                        <div fxLayout="column" fxFlex="33" fxLayoutAlign="center center">
+                            <p> {{video.statistics.dislikeCount | numbers}}</p><mat-icon class="red">thumb_down</mat-icon>
+                        </div>
+                        <div fxLayout="column" fxFlex="33" fxLayoutAlign="center start">
+                            <p> {{video.statistics.viewCount | numbers}}</p><mat-icon>visibility</mat-icon>
+                        </div>
+                    </div>
+                    <div fxFlex="10"></div>
                 </mat-list>
             </mat-card>
         </div>

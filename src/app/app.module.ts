@@ -13,7 +13,7 @@ import {
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSidenavModule, MatTableModule, MatTabsModule,
-    MatToolbarModule, MatInputModule, MatChip, MatChipsModule
+    MatToolbarModule, MatInputModule, MatChip, MatChipsModule, MatDividerModule
 } from '@angular/material';
 import { TopbarComponent } from './topbar/topbar.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -23,6 +23,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { HakuPipe } from './haku/haku.pipe';
 import {VideosService} from './services/videos.service';
 import {AngularResizedEventModule} from 'angular-resize-event';
+import { NumbersPipe } from './pipes/numbers.pipe';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {AngularResizedEventModule} from 'angular-resize-event';
     TopbarComponent,
     MainComponent,
     HakuPipe,
+    NumbersPipe,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,8 @@ import {AngularResizedEventModule} from 'angular-resize-event';
       YoutubePlayerModule,
       HttpClientModule,
       MatChipsModule,
-      AngularResizedEventModule
+      AngularResizedEventModule,
+      MatDividerModule
   ],
   providers: [VideosService],
   bootstrap: [AppComponent]

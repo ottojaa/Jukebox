@@ -24,7 +24,8 @@ export class VideosService {
     }
 
     getQueue(index) {
-        const URL = 'https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet&id='
+        const URL = 'https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
+            ',contentDetails,statistics,status&id='
             + index;
         console.log(URL);
         return this.http.get<Videolist>(URL);
