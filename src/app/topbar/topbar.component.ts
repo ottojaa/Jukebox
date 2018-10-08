@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {VideosService} from '../services/videos.service';
 import {ViewEncapsulation} from '@angular/core';
-import { ResizedEvent } from 'angular-resize-event/resized-event';
+import {ResizedEvent} from 'angular-resize-event/resized-event';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class TopbarComponent implements OnInit {
     public ytEvent;
     public lista: any = [];
     public token: string;
-    public duplicates: any = [];
+    public current: any = [];
     videoId = new Array();
     searchDone = false;
     width: any;
@@ -24,18 +24,24 @@ export class TopbarComponent implements OnInit {
     title: any;
     i: string;
     public jono = [];
+    public pageLoaded = false;
     addToQueue: boolean;
     public playerStatus: string;
 
     constructor(public data: VideosService) {
     }
+
     onResized(event: ResizedEvent): void {
         this.width = event.newWidth;
         this.height = event.newHeight;
-        console.log(((this.height - 320) * 0.75));
-        document.querySelector('[title="YouTube video player"]').style.width = this.width + 'px';
-        document.querySelector('[title="YouTube video player"]').style.height = ((this.width) * 0.75) + 'px';
+        if (this.pageLoaded === true) {
+            const k = document.querySelector('[title="YouTube video player"]') as HTMLElement;
+            k.style.width = this.width + 'px';
+            k.style.height = ((this.width) * 0.75) + 'px';
+            console.log(k.style.width);
+        }
     }
+
     searchForm() {
         this.data.results = [];
         this.videoId = [];
@@ -49,6 +55,7 @@ export class TopbarComponent implements OnInit {
             });
         });
     }
+
     onPlayerReady(event) {
         this.title = event.target.getVideoData().title;
     }
@@ -86,6 +93,7 @@ export class TopbarComponent implements OnInit {
             console.log(this.jono);
         }
         console.log(event.data);
+        console.log(this.id);
     }
 
     skipCurrent() {
@@ -103,6 +111,13 @@ export class TopbarComponent implements OnInit {
             i.style.width = '30%';
             i.style.opacity = '1';
         }
+    }
+
+    autoResize() {
+        const k = document.querySelector('[title="YouTube video player"]') as HTMLElement;
+        k.style.width = document.getElementById('vasen').style.width;
+        k.style.height = ((this.width) * 0.75) + 'px';
+        console.log(k.style.width);
     }
 
     passIndex(index) {
@@ -169,5 +184,11 @@ export class TopbarComponent implements OnInit {
                 this.videoId.push(res.id.videoId);
             });
         });
+        this.data.getQueue(this.id).subscribe(res => {
+            this.data.current = res['items'];
+        });
+        this.pageLoaded = true;
+        setTimeout(this.autoResize, 2000);
+
     }
 }

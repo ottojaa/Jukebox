@@ -19,7 +19,7 @@
     </div>
     <div class="container" fxFlex="50">
         <div fxLayout="row" class="keskii" fxFlex="100" fxLayoutAlign="center start">
-            <mat-card (resized)="onResized($event)" class="vasen" fxFlex="50">
+            <mat-card (resized)="onResized($event)" class="vasen" fxFlex="50" id="vasen">
                 <div class="searchResault" fxLayoutAlign="center center">
                     <p *ngIf="searchDone">Search Results:</p>
                     <p *ngIf="!searchDone"> Current top videos: </p>
@@ -34,7 +34,6 @@
                         <button mat-button (click)="passIndex(i)">
                             <mat-icon>playlist_add</mat-icon>
                         </button>
-
                     </mat-list-item>
                 </mat-list>
             </mat-card>
@@ -68,9 +67,11 @@
                         </div>
                     </section>
                 </div>
-                <div class="nowplaying" fxLayoutAlign="center center" >
-                    <p style="font-weight: bold;  margin-top:10%;"> {{ title }}</p>
-                </div>
+                <mat-list class="nowplaying" *ngFor="let video of data.current">
+                    <h6 matLine>
+                        {{ video.snippet.description }}
+                    </h6>
+                </mat-list>
             </mat-card>
         </div>
     </div>
@@ -79,7 +80,7 @@
             <div class="soittolista">
                 <p>Playlist</p>
             </div>
-            <p>Next Up:</p>
+            <p>Up next:</p>
             <mat-list *ngIf="lista">
                 <mat-list-item class="white" *ngFor="let item of lista, let i = index">
                     <img *ngIf="item[0].snippet.thumbnails" matListAvatar [src]="item[0].snippet.thumbnails.default.url">

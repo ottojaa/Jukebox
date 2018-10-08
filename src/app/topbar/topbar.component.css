@@ -18,6 +18,10 @@
 * {
     font-family: 'Montserrat', sans-serif;
 }
+.nowplaying {
+    word-wrap: break-word;
+    font-weight: 400 !important;
+}
 
 .mat-button{
     line-height: 70px !important;

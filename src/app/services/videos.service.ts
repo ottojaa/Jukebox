@@ -14,7 +14,7 @@ export class VideosService {
     results = new Array();
     items: any;
     public lista: any;
-    public jono = [];
+    current = new Array();
 
     getVideos() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
