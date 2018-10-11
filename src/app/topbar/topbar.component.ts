@@ -142,6 +142,7 @@ export class TopbarComponent implements OnInit {
             });
             this.player.loadVideoById(this.id);
         }
+        this.autoResize();
     }
 
     skipCurrent() {
@@ -171,6 +172,7 @@ export class TopbarComponent implements OnInit {
             i.style.width = '30%';
             i.style.opacity = '1';
         }
+        this.autoResize();
     }
 
     autoResize() {
@@ -184,7 +186,7 @@ export class TopbarComponent implements OnInit {
     passIndex(index) {
         this.addToQueue = true;
         this.i = this.videoId[index];
-        if (this.jono.length < 10) {
+        if (this.jono.length < 30) {
             if (!this.jono.includes(this.i)) {
                 this.jono.push(this.i);
                 console.log(this.jono);
@@ -200,15 +202,17 @@ export class TopbarComponent implements OnInit {
         console.log(this.i);
         if (this.addToQueue === true) {
             this.data.getQueue(this.i).subscribe(data => {
-                if (this.lista.length < 10) {
+                if (this.lista.length < 30) {
                     this.lista.push(data['items']);
                 }
-                if (this.lista.length === 10) {
+                if (this.lista.length === 30) {
                     document.getElementById('listEnd').innerHTML = 'Playlist Full!';
                     document.getElementById('listEnd').style.margin = '10px';
                 }
             });
         }
+        const song = document.querySelector('#playlist');
+        song.scrollTop = song.scrollHeight - song.clientHeight;
     }
 
     deleteEntry(index) {

@@ -39,7 +39,7 @@
                 </div>
 
                 <mat-list *ngIf="data.results">
-                    <mat-list-item class="item" *ngFor="let video of data.results, let i = index">
+                    <mat-list-item class="item" *ngFor="let video of data.results | filter, let i = index">
                         <img *ngIf="video.snippet.thumbnails" matListAvatar
                              [src]="video.snippet.thumbnails.default.url">
                         <h3 matLine style="font-weight: 600"> {{ video.snippet.title }}</h3>
@@ -110,13 +110,10 @@
         </div>
     </div>
     <div fxFlex="20" fxFlexOffset="5">
-        <mat-card class="oikeatoka" fxFlex="80">
+        <mat-card class="oikeatoka" fxFlex="80" id="playlist">
             <div class="soittolista" fxLayout="row" fxLayoutAlign="space-around center">
-
                 <p style="color: white !important;">Playlist</p>
-
             </div>
-
             <mat-list *ngIf="lista" id="parent">
                 <mat-list-item id="child" (click)="getThisVideo(i)" class="white"
                                *ngFor="let item of lista, let i = index">

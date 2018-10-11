@@ -24,6 +24,7 @@ import { HakuPipe } from './haku/haku.pipe';
 import {VideosService} from './services/videos.service';
 import {AngularResizedEventModule} from 'angular-resize-event';
 import { NumbersPipe } from './pipes/numbers.pipe';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { NumbersPipe } from './pipes/numbers.pipe';
     MainComponent,
     HakuPipe,
     NumbersPipe,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,
