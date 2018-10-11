@@ -19,14 +19,14 @@ export class VideosService {
 
     getVideos() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
-            ',id&order=relevance&maxResults=7&q=' + this.query;
+            ',id&type=video&order=relevance&maxResults=7&q=' + this.query;
         console.log(finalURL);
         this.currentSearch = this.query;
         return this.http.get<Videolist>(finalURL);
     }
 
     getQueue(index) {
-        const URL = 'https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
+        const URL = 'https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&type=video&part=snippet' +
             ',contentDetails,statistics,status&id='
             + index;
         console.log(URL);
@@ -34,18 +34,18 @@ export class VideosService {
     }
     getTopVideos() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI' +
-            '&part=snippet,id&order=relevance&maxResults=7&chart=mostPopular';
+            '&part=snippet,id&type=video&order=relevance&maxResults=7&chart=mostPopular';
         return this.http.get<Videolist>(finalURL);
     }
     getNextPage() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
-            ',id&order=relevance&pageToken=' + this.nextPageToken + '&maxResults=7&q=' + this.query;
+            ',id&type=video&order=relevance&pageToken=' + this.nextPageToken + '&maxResults=7&q=' + this.query;
         console.log(finalURL);
         return this.http.get<Videolist>(finalURL);
     }
     getPreviousPage() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
-            ',id&order=relevance&pageToken=' + this.previousPageToken + '&maxResults=7&q=' + this.query;
+            ',id&type=video&order=relevance&pageToken=' + this.previousPageToken + '&maxResults=7&q=' + this.query;
         console.log(finalURL);
         return this.http.get<Videolist>(finalURL);
     }
