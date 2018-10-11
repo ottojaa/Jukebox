@@ -9,6 +9,8 @@ export class Videolist implements Deserialize<Videolist> {
     channelTitle: any;
     id: any;
     snippet: any;
+    nextPageToken: string;
+    prevPageToken: string;
 
     deserialize(input: any): Videolist {
         Object.assign(this, input);

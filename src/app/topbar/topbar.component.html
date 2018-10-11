@@ -1,33 +1,47 @@
 <div fxLayout="row" fxLayoutAlign="start center" class="margin">
     <mat-toolbar fxFlex="50">
-        <div class="logo" style="z-index: 99">
-            <img src="assets/img/nuke.png" alt="nukebox" height="108" width="128">
-        </div>
-        <form class="example-form">
-            <mat-form-field class="testi">
-                <input id="haku" matInput placeholder="Search for songs" [(ngModel)]="data.query" name="query">
 
+        <form class="example-form" fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field class="testi">
+                <input id="haku" matInput placeholder="Search for songs" [(ngModel)]="data.query" name="query"
+                       color="red">
             </mat-form-field>
             <button (click)="searchForm()" mat-button style="margin-left: 40px !important;">
                 <mat-icon matSuffix>search</mat-icon>
             </button>
+            <div class="logo" style="z-index: 99">
+                <img src="assets/img/nuke.png" alt="nukebox" height="60" width="72">
+            </div>
         </form>
     </mat-toolbar>
 </div>
-<div fxLayout="row"fxLayoutAlign="center start">
+<div fxLayout="row" fxLayoutAlign="center start">
     <div class="filler" fxFlex="25">
     </div>
     <div class="container" fxFlex="50">
         <div fxLayout="row" class="keskii" fxFlex="100" fxLayoutAlign="center start">
-            <mat-card (resized)="onResized($event)" class="vasen" fxFlex="50" id="vasen">
-                <div class="searchResault" fxLayoutAlign="center center">
-                    <p *ngIf="searchDone">Search Results:</p>
+            <mat-card class="vasen" fxFlex="60" id="vasen">
+                <div class="searchResault" fxLayoutAlign="space-around center">
+                    <div *ngIf="searchDone">
+                        <h3 matLine style="font-weight: 400"> Page: {{data.pageIndex}}</h3>
+                    </div>
                     <p *ngIf="!searchDone"> Current top videos: </p>
+                    <div class="page" fxLayoutAlign="end center" *ngIf="searchDone" fxLayout="row">
+                        <button *ngIf="data.previousPageToken" mat-button (click)="previousPage()">
+                            <mat-icon matSuffix>arrow_left</mat-icon>
+                            Previous page
+                        </button>
+                        <button *ngIf="data.nextPageToken" mat-button (click)="nextPage()">
+                            Next page
+                            <mat-icon matPrefix>arrow_right</mat-icon>
+                        </button>
+                    </div>
                 </div>
+
                 <mat-list *ngIf="data.results">
                     <mat-list-item class="item" *ngFor="let video of data.results, let i = index">
-                        <mat-divider matPrefix></mat-divider>
-                        <img *ngIf="video.snippet.thumbnails" matListAvatar [src]="video.snippet.thumbnails.default.url">
+                        <img *ngIf="video.snippet.thumbnails" matListAvatar
+                             [src]="video.snippet.thumbnails.default.url">
                         <h3 matLine style="font-weight: 600"> {{ video.snippet.title }}</h3>
                         <p matLine><span style="color: #ff0101"> {{video.snippet.channelTitle}}</span></p>
                         <p matLine><span> {{video.snippet.description}}</span></p>
@@ -37,72 +51,78 @@
                     </mat-list-item>
                 </mat-list>
             </mat-card>
-            <mat-card class="oikeaeka" fxLayout="column">
+            <mat-card (resized)="onResized($event)" class="oikeaeka" fxLayout="column" >
                 <youtube-player
+                        style="margin-bottom: -5px"
                         [videoId]="id"
                         (ready)="savePlayer($event)"
                         (change)="onStateChange($event)">
                 </youtube-player>
                 <div class="buttons" fxLayoutAlign="center center">
                     <button mat-button (click)="playVideo()">
-                        <mat-icon [inline]="true">play_arrow</mat-icon>
+                        <mat-icon style="color: white;" [inline]="true">play_arrow</mat-icon>
                     </button>
                     <button mat-button (click)="pauseVideo()">
-                        <mat-icon [inline]="true">pause</mat-icon>
+                        <mat-icon style="color: white;" [inline]="true">pause</mat-icon>
                     </button>
                     <button mat-button (click)="skipCurrent()">
-                        <mat-icon [inline]="true">skip_next</mat-icon>
+                        <mat-icon style="color: white;" [inline]="true">skip_next</mat-icon>
                     </button>
                 </div>
 
 
-                <mat-list class="nowplaying"  fxLayout="column" *ngFor="let video of data.current" fxLayoutAlign="start end">
+                <mat-list class="nowplaying" fxLayout="column" *ngFor="let video of data.current"
+                          fxLayoutAlign="start end">
                     <mat-divider></mat-divider>
-                    <div style="margin-top: 5%">
-                        <p></p>
-                    </div>
+
                     <div fxLayout="row" fxLayoutAlign="center center" fxFlexFill>
-                        <div fxLayout="column" fxLayoutAlign="center center">
+                        <div fxLayout="row" style="margin-top: 20px" fxLayoutAlign="center center">
                             <h3 matLine style="font-weight: 600; margin: 5px;"> {{ video.snippet.title }}</h3>
-                            <p matLine style="margin: 5px;"><span style="color: #ff0101"> Uploaded by: {{video.snippet.channelTitle}}</span></p>
-                        </div>
-                        <div fxLayout="column" fxFlex="30" fxLayoutAlign="center center">
-                            <section class="panel panel-classss">
-                                <div class="panel-body">
-                                    <pre style="height:30px;"*ngIf="playerStatus">{{ playerStatus }}</pre>
-                                    <pre *ngIf="!playerStatus"> Player Ready </pre>
-                                </div>
-                                <div *ngIf="data.results">
-                                </div>
-                            </section>
                         </div>
                     </div>
-                    <div fxLayout="row" fxLayoutAlign="start end" fxFlexFill style="min-width: 80%;">
-                        <div fxLayout="column" fxFlex="33" fxLayoutAlign="center end">
-                            <p> {{video.statistics.likeCount | numbers}} </p><mat-icon class="green">thumb_up</mat-icon>
+                    <mat-divider></mat-divider>
+                    <div id="now" class="nowplaying" fxLayout="row" fxLayoutAlign="start end" fxFlexFill
+                         style="min-width: 80%;">
+                        <div fxLayout="row" fxFlex="33" fxLayoutAlign="end center">
+                            <p> {{video.statistics.likeCount | numbers}} </p>
+                            <mat-icon style="margin-left: 5px">thumb_up</mat-icon>
                         </div>
-                        <div fxLayout="column" fxFlex="33" fxLayoutAlign="center center">
-                            <p> {{video.statistics.dislikeCount | numbers}}</p><mat-icon class="red">thumb_down</mat-icon>
+                        <div fxLayout="row" fxFlex="33" fxLayoutAlign="center center">
+                            <p> {{video.statistics.dislikeCount | numbers}}</p>
+                            <mat-icon style="margin-left: 5px">thumb_down</mat-icon>
                         </div>
-                        <div fxLayout="column" fxFlex="33" fxLayoutAlign="center start">
-                            <p> {{video.statistics.viewCount | numbers}}</p><mat-icon>visibility</mat-icon>
+                        <div fxLayout="column" fxFlex="33" fxLayoutAlign="start center">
+                            <p> Views: {{video.statistics.viewCount | numbers}} </p>
                         </div>
+
                     </div>
-                    <div fxFlex="10"></div>
+
+                    <div fxFlexFill fxLayoutAlign="center center">
+                        <p>Uploaded by:</p>
+                        <p style="font-weight: 600; color: #ff1142;">&ensp;{{video.snippet.channelTitle}}</p>
+                    </div>
+                    <div fxFlex="10" class="descript" style="overflow-y: auto;">
+                        <mat-divider></mat-divider>
+                        <p class="italic">{{video.snippet.localized.description}}</p>
+                    </div>
                 </mat-list>
             </mat-card>
         </div>
     </div>
-    <div fxFlex="23" fxFlexOffset="2">
+    <div fxFlex="20" fxFlexOffset="5">
         <mat-card class="oikeatoka" fxFlex="80">
-            <div class="soittolista">
-                <p>Playlist</p>
+            <div class="soittolista" fxLayout="row" fxLayoutAlign="space-around center">
+
+                <p style="color: white !important;">Playlist</p>
+
             </div>
-            <p>Up next:</p>
-            <mat-list *ngIf="lista">
-                <mat-list-item class="white" *ngFor="let item of lista, let i = index">
-                    <img *ngIf="item[0].snippet.thumbnails" matListAvatar [src]="item[0].snippet.thumbnails.default.url">
-                    <p matLine *ngIf="item[0].snippet.title"><span> {{item[0].snippet.title}} </span></p>
+
+            <mat-list *ngIf="lista" id="parent">
+                <mat-list-item id="child" (click)="getThisVideo(i)" class="white"
+                               *ngFor="let item of lista, let i = index">
+                    <img *ngIf="item[0].snippet.thumbnails" matListAvatar
+                         [src]="item[0].snippet.thumbnails.default.url">
+                    <p matLine *ngIf="item[0].snippet.title"><span id="teksti"> {{item[0].snippet.title}} </span></p>
                     <mat-divider class="white"></mat-divider>
                     <button style="line-height: 0px !important;" mat-button (click)="deleteEntry(i)">
                         <mat-icon>clear</mat-icon>

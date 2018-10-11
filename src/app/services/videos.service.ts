@@ -8,18 +8,20 @@ import {Videolist} from '../Models/videolist.model';
 export class VideosService {
     constructor(private http: HttpClient) {
     }
-
-    public key: 'AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI';
-    public query: string;
+    query: string;
     results = new Array();
-    items: any;
-    public lista: any;
+    public nextPageToken: string;
+    public previousPageToken: string;
+    currentSearch: string;
+    pageIndex = 1;
+    jonoId = 0;
     current = new Array();
 
     getVideos() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
-            ',id&order=viewCount&maxResults=8&q=' + this.query;
+            ',id&order=relevance&maxResults=7&q=' + this.query;
         console.log(finalURL);
+        this.currentSearch = this.query;
         return this.http.get<Videolist>(finalURL);
     }
 
@@ -32,7 +34,19 @@ export class VideosService {
     }
     getTopVideos() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI' +
-            '&part=snippet,id&order=relevance&maxResults=8&chart=mostPopular';
+            '&part=snippet,id&order=relevance&maxResults=7&chart=mostPopular';
+        return this.http.get<Videolist>(finalURL);
+    }
+    getNextPage() {
+        const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
+            ',id&order=relevance&pageToken=' + this.nextPageToken + '&maxResults=7&q=' + this.query;
+        console.log(finalURL);
+        return this.http.get<Videolist>(finalURL);
+    }
+    getPreviousPage() {
+        const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
+            ',id&order=relevance&pageToken=' + this.previousPageToken + '&maxResults=7&q=' + this.query;
+        console.log(finalURL);
         return this.http.get<Videolist>(finalURL);
     }
 }

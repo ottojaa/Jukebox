@@ -22,11 +22,13 @@ export class TopbarComponent implements OnInit {
     height: any;
     title: any;
     i: string;
+    lastIndex = 0;
     public messageSuccess: any;
     public jono = [];
     public pageLoaded = false;
     addToQueue: boolean;
     public playerStatus: string;
+    currentSearch: string;
 
     constructor(public data: VideosService) {
     }
@@ -45,10 +47,11 @@ export class TopbarComponent implements OnInit {
     searchForm() {
         this.data.results = [];
         this.videoId = [];
-        console.log(this.data.results);
+        this.data.nextPageToken = null;
+        this.data.previousPageToken = null;
         this.data.getVideos().subscribe(data => {
             this.data.results = data['items'];
-            console.log(this.data.results);
+            this.data.nextPageToken = data.nextPageToken;
             this.searchDone = true;
             this.data.results.forEach(res => {
                 this.videoId.push(res.id.videoId);
@@ -56,14 +59,55 @@ export class TopbarComponent implements OnInit {
         });
     }
 
-    onPlayerReady(event) {
-        this.title = event.target.getVideoData().title;
+    nextPage() {
+        this.data.results = [];
+        this.videoId = [];
+        this.data.getNextPage().subscribe(data => {
+            this.data.results = data['items'];
+            this.data.nextPageToken = data.nextPageToken;
+            if (data.prevPageToken) {
+                this.data.previousPageToken = data.prevPageToken;
+            }
+            console.log(this.data.nextPageToken);
+            console.log(this.data.previousPageToken);
+            this.data.pageIndex += 1;
+            this.searchDone = true;
+            this.data.results.forEach(res => {
+                this.videoId.push(res.id.videoId);
+            });
+        });
+    }
+
+    previousPage() {
+        this.data.results = [];
+        this.videoId = [];
+        this.data.getPreviousPage().subscribe(data => {
+            this.data.results = data['items'];
+            this.data.nextPageToken = data.nextPageToken;
+            this.data.previousPageToken = data.prevPageToken;
+            this.data.pageIndex -= 1;
+            this.searchDone = true;
+            this.data.results.forEach(res => {
+                this.videoId.push(res.id.videoId);
+            });
+        });
+    }
+
+    getThisVideo(index) {
+        this.player.loadVideoById(this.jono[index]);
+        this.data.getQueue(this.jono[index]).subscribe(res => {
+            this.data.current = res['items'];
+        });
+        const x = <any>document.getElementById('parent').querySelectorAll('.mat-list-item');
+        x[index].style.backgroundColor = 'rgba(45, 144, 56, 0.92)';
+        x[this.lastIndex].style.backgroundColor = '#22242a';
+        this.lastIndex = index;
+        this.data.jonoId = index + 1;
     }
 
     onStateChange(event) {
-        this.title = event.target.getVideoData().title;
+        console.log(this.data.jonoId);
         this.ytEvent = event.data;
-        console.log(this.ytEvent);
         if (this.ytEvent === 0) {
             this.playerStatus = 'Not loaded';
         }
@@ -82,27 +126,39 @@ export class TopbarComponent implements OnInit {
         if (this.ytEvent === 3) {
             this.playerStatus = 'Buffering';
         }
-        if (event.data === 0 && this.jono[0]) {
-            this.id = this.jono[0];
+        if (event.data === 0 && this.jono) {
+            console.log(this.data.jonoId);
+            const x = <any>document.getElementById('parent').querySelectorAll('mat-list-item');
+            x[this.data.jonoId].style.backgroundColor = 'rgba(45, 144, 56, 0.92)';
+            if (this.lastIndex !== this.data.jonoId) {
+                x[this.lastIndex].style.backgroundColor = '#22242a';
+            }
+            this.id = this.jono[this.data.jonoId];
+            this.lastIndex = this.data.jonoId;
+            this.data.jonoId += 1;
             this.data.getQueue(this.id).subscribe(res => {
                 this.data.current = res['items'];
+                console.log(this.data.current);
             });
             this.player.loadVideoById(this.id);
-            this.jono.splice(0, 1);
-            this.lista.splice(0, 1);
-            this.title = event.target.getVideoData().title;
-            console.log(this.jono);
         }
-        console.log(event.data);
-        console.log(this.id);
     }
 
     skipCurrent() {
-        if (this.jono[0]) {
-            this.id = this.jono[0];
+        console.log(this.data.jonoId);
+        if (this.jono[this.data.jonoId]) {
+            const x = <any>document.getElementById('parent').querySelectorAll('mat-list-item');
+            x[this.data.jonoId].style.backgroundColor = 'rgba(45, 144, 56, 0.92)';
+            if (this.lastIndex !== this.data.jonoId) {
+                x[this.lastIndex].style.backgroundColor = '#22242a';
+            }
+            this.lastIndex = this.data.jonoId;
+            this.id = this.jono[this.data.jonoId];
             this.player.loadVideoById(this.id);
-            this.jono.splice(0, 1);
-            this.lista.splice(0, 1);
+            this.data.getQueue(this.id).subscribe(res => {
+                this.data.current = res['items'];
+                this.data.jonoId += 1;
+            });
         } else {
             this.data.getQueue(this.id).subscribe(res => {
                 this.data.current = res['items'];
@@ -144,8 +200,6 @@ export class TopbarComponent implements OnInit {
         console.log(this.i);
         if (this.addToQueue === true) {
             this.data.getQueue(this.i).subscribe(data => {
-                console.log(this.lista);
-                console.log(this.jono[index]);
                 if (this.lista.length < 10) {
                     this.lista.push(data['items']);
                 }
@@ -160,6 +214,7 @@ export class TopbarComponent implements OnInit {
     deleteEntry(index) {
         this.lista.splice(index, 1);
         this.jono.splice(index, 1);
+        console.log(this.data.jonoId);
         console.log(this.lista);
         document.getElementById('listEnd').innerHTML = '';
         document.getElementById('listEnd').style.margin = '0px';
