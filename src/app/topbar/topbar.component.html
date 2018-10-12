@@ -1,7 +1,12 @@
-<div fxLayout="row" fxLayoutAlign="start center" class="margin">
-    <mat-toolbar fxFlex="50">
-
+<div fxLayout="row" fxLayoutAlign="center center" class="margin">
+    <div class="filler" fxFlex="20">
+    </div>
+    <mat-toolbar fxFlex="55" >
+        <div class="logo" style="z-index: 99; top: -10px">
+            <img src="assets/img/nuke.png" alt="nukebox" height="140" width="160">
+        </div>
         <form class="example-form" fxLayout="row" fxLayoutAlign="center center">
+
             <mat-form-field class="testi">
                 <input id="haku" matInput placeholder="Search for songs" [(ngModel)]="data.query" name="query"
                        color="red">
@@ -9,18 +14,19 @@
             <button (click)="searchForm()" mat-button style="margin-left: 40px !important;">
                 <mat-icon matSuffix>search</mat-icon>
             </button>
-            <div class="logo" style="z-index: 99">
-                <img src="assets/img/nuke.png" alt="nukebox" height="60" width="72">
-            </div>
+
         </form>
     </mat-toolbar>
+    <div class="filler" fxFlex="20" fxFlexOffset="5">
+    </div>
+
 </div>
 <div fxLayout="row" fxLayoutAlign="center start">
-    <div class="filler" fxFlex="25">
+    <div class="filler" fxFlex="20">
     </div>
-    <div class="container" fxFlex="50">
+    <div class="container" fxFlex="55">
         <div fxLayout="row" class="keskii" fxFlex="100" fxLayoutAlign="center start">
-            <mat-card class="vasen" fxFlex="60" id="vasen">
+            <mat-card class="vasen" fxFlex="55" id="vasen">
                 <div class="searchResault" fxLayoutAlign="space-around center">
                     <div *ngIf="searchDone">
                         <h3 matLine style="font-weight: 400"> Page: {{data.pageIndex}}</h3>
@@ -51,7 +57,7 @@
                     </mat-list-item>
                 </mat-list>
             </mat-card>
-            <mat-card (resized)="onResized($event)" class="oikeaeka" fxLayout="column" >
+            <mat-card (resized)="onResized($event)" class="oikeaeka" fxLayout="column" fxFlex="45">
                 <youtube-player
                         style="margin-bottom: -5px"
                         [videoId]="id"
@@ -81,7 +87,7 @@
                         </div>
                     </div>
                     <mat-divider></mat-divider>
-                    <div id="now" class="nowplaying" fxLayout="row" fxLayoutAlign="start end" fxFlexFill
+                    <div id="now" class="nowplaying" fxLayout="row" fxLayoutAlign="start end"
                          style="min-width: 80%;">
                         <div fxLayout="row" fxFlex="33" fxLayoutAlign="end center">
                             <p> {{video.statistics.likeCount | numbers}} </p>
@@ -109,8 +115,8 @@
             </mat-card>
         </div>
     </div>
-    <div fxFlex="20" fxFlexOffset="5">
-        <mat-card class="oikeatoka" fxFlex="80" id="playlist">
+    <div fxFlex="20" fxFlexOffset="2">
+        <mat-card class="oikeatoka" fxFlex="95" id="playlist">
             <div class="soittolista" fxLayout="row" fxLayoutAlign="space-around center">
                 <p style="color: white !important;">Playlist</p>
             </div>
@@ -121,12 +127,15 @@
                          [src]="item[0].snippet.thumbnails.default.url">
                     <p matLine *ngIf="item[0].snippet.title"><span id="teksti"> {{item[0].snippet.title}} </span></p>
                     <mat-divider class="white"></mat-divider>
-                    <button style="line-height: 0px !important;" mat-button (click)="deleteEntry(i)">
+                    <button style="line-height: 0px !important; padding: 5px;" mat-button (click)="deleteEntry(i)">
                         <mat-icon>clear</mat-icon>
                     </button>
                 </mat-list-item>
             </mat-list>
             <p id="listEnd" style="margin: 0 !important; font-weight: bold;"></p>
         </mat-card>
+    </div>
+    <div fxFlex="3">
+        <p></p>
     </div>
 </div>

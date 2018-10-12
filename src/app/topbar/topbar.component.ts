@@ -211,13 +211,18 @@ export class TopbarComponent implements OnInit {
                 }
             });
         }
-        const song = document.querySelector('#playlist');
-        song.scrollTop = song.scrollHeight - song.clientHeight;
+        setTimeout(() => {
+            const song = document.querySelector('#playlist');
+            song.scrollTop = song.scrollHeight - song.clientHeight;
+        }, 300);
     }
 
     deleteEntry(index) {
         this.lista.splice(index, 1);
         this.jono.splice(index, 1);
+        if (index < this.lastIndex) {
+            this.lastIndex -= 1;
+        }
         console.log(this.data.jonoId);
         console.log(this.lista);
         document.getElementById('listEnd').innerHTML = '';
