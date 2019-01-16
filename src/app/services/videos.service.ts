@@ -1,12 +1,17 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Videolist} from '../Models/videolist.model';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import * as firebase from 'firebase';
+import {NgZone} from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
 })
 export class VideosService {
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private db: AngularFirestore, public afAuth: AngularFireAuth, private router: Router, private ngZone: NgZone) {
     }
     query: string;
     results = new Array();
@@ -16,6 +21,24 @@ export class VideosService {
     pageIndex = 1;
     jonoId = 0;
     current = new Array();
+
+    googleLogin() {
+        return new Promise<any>((resolve, reject) => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope('profile');
+            provider.addScope('email');
+            this.afAuth.auth
+                .signInWithPopup(provider)
+                .then(res => {
+                    console.log(res);
+                    resolve(res);
+                    this.ngZone.run(() => (this.router.navigate(['/topbar'])));
+                }, err => {
+                    console.log(err);
+                    reject(err);
+                });
+        });
+    }
 
     getVideos() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +

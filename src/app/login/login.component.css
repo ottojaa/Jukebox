@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+.background{
+    height:500px;
+    width:500px;
+    background: red;
+}
+.mat-success{
+    background: #d9382c;
+    color: white;
+}
+.mat-warning{
+    background: #0b8a9e;
+    color: white;
+}
+.size{
+    width: 18%;
+    height: 5%;
+    font-family: 'Montserrat', sans-serif;
+}
+.alempi{
+    width: 18%;
+    height: 5%;
+
+}
+.full{
+    width: 100%;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+}
+.container{
+    height: 100%;
+    width: 100%;
+}

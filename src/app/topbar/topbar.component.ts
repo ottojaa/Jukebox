@@ -2,6 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {VideosService} from '../services/videos.service';
 import {ViewEncapsulation} from '@angular/core';
 import {ResizedEvent} from 'angular-resize-event/resized-event';
+import 'firebase/firestore';
+import * as firebase from 'firebase';
+import {AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection} from '@angular/fire/firestore';
+
+interface User {
+    uid: string;
+    email: string;
+}
 
 
 @Component({
@@ -20,6 +28,7 @@ export class TopbarComponent implements OnInit {
     searchDone = false;
     width: any;
     height: any;
+    user;
     title: any;
     i: string;
     lastIndex = 0;
@@ -30,7 +39,7 @@ export class TopbarComponent implements OnInit {
     public playerStatus: string;
     currentSearch: string;
 
-    constructor(public data: VideosService) {
+    constructor(public data: VideosService, private afs: AngularFirestore) {
     }
 
     onResized(event: ResizedEvent): void {
@@ -252,6 +261,13 @@ export class TopbarComponent implements OnInit {
         this.data.getQueue(this.id).subscribe(res => {
             this.data.current = res['items'];
         });
+        this.user = firebase.auth().currentUser;
+        this.afs.collection('Playlists').add({ date: new Date(), owner: this.user.uid}).then((docRef) => {
+            localStorage.setItem('PlaylistId', docRef.id);
+            this.afs.doc(`PlaylistId/${docRef.id}`).update({ PlaylistId: docRef.id });
+            console.log(docRef);
+        });
+        console.log(this.user);
         this.pageLoaded = true;
         this.messageSuccess = true;
 

@@ -1,3 +1,6 @@
+<div fxLayout="row">
+    <p>Currently logged in as</p>
+</div>
 <div fxLayout="row" fxLayoutAlign="center center" class="margin">
     <div class="filler" fxFlex="20">
     </div>
@@ -117,8 +120,11 @@
     </div>
     <div fxFlex="20" fxFlexOffset="2">
         <mat-card class="oikeatoka" fxFlex="95" id="playlist">
+            <button mat-button>
+                <p style="color: white;">My playlists</p>
+            </button>
             <div class="soittolista" fxLayout="row" fxLayoutAlign="space-around center">
-                <p style="color: white !important;">Playlist</p>
+                <p style="color: white !important;">Current Playlist</p>
             </div>
             <mat-list *ngIf="lista" id="parent">
                 <mat-list-item id="child" (click)="getThisVideo(i)" class="white"
