@@ -1,147 +1,238 @@
-<div fxLayout="row">
-    <p>Currently logged in as</p>
-</div>
-<div fxLayout="row" fxLayoutAlign="center center" class="margin">
-    <div class="filler" fxFlex="20">
-    </div>
-    <mat-toolbar fxFlex="55" >
-        <div class="logo" style="z-index: 99; top: -10px">
-            <img src="assets/img/nuke.png" alt="nukebox" height="140" width="160">
-        </div>
-        <form class="example-form" fxLayout="row" fxLayoutAlign="center center">
-
-            <mat-form-field class="testi">
-                <input id="haku" matInput placeholder="Search for songs" [(ngModel)]="data.query" name="query"
-                       color="red">
-            </mat-form-field>
-            <button (click)="searchForm()" mat-button style="margin-left: 40px !important;">
-                <mat-icon matSuffix>search</mat-icon>
-            </button>
-
-        </form>
-    </mat-toolbar>
-    <div class="filler" fxFlex="20" fxFlexOffset="5">
-    </div>
-
-</div>
 <div fxLayout="row" fxLayoutAlign="center start">
-    <div class="filler" fxFlex="20">
-    </div>
-    <div class="container" fxFlex="55">
-        <div fxLayout="row" class="keskii" fxFlex="100" fxLayoutAlign="center start">
-            <mat-card class="vasen" fxFlex="55" id="vasen">
-                <div class="searchResault" fxLayoutAlign="space-around center">
-                    <div *ngIf="searchDone">
-                        <h3 matLine style="font-weight: 400"> Page: {{data.pageIndex}}</h3>
-                    </div>
-                    <p *ngIf="!searchDone"> Current top videos: </p>
-                    <div class="page" fxLayoutAlign="end center" *ngIf="searchDone" fxLayout="row">
-                        <button *ngIf="data.previousPageToken" mat-button (click)="previousPage()">
-                            <mat-icon matSuffix>arrow_left</mat-icon>
-                            Previous page
-                        </button>
-                        <button *ngIf="data.nextPageToken" mat-button (click)="nextPage()">
-                            Next page
-                            <mat-icon matPrefix>arrow_right</mat-icon>
-                        </button>
-                    </div>
+    <div fxFlex="20"></div>
+    <div fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="center center" class="margin">
+            <mat-toolbar class="search">
+                <div class="logo" style="z-index: 99; top: -10px">
+                    <img src="assets/img/nuke.png" alt="nukebox" height="140" width="160">
                 </div>
+                <form class="example-form" fxLayout="row" fxLayoutAlign="center center">
 
-                <mat-list *ngIf="data.results">
-                    <mat-list-item class="item" *ngFor="let video of data.results | filter, let i = index">
-                        <img *ngIf="video.snippet.thumbnails" matListAvatar
-                             [src]="video.snippet.thumbnails.default.url">
-                        <h3 matLine style="font-weight: 600"> {{ video.snippet.title }}</h3>
-                        <p matLine><span style="color: #ff0101"> {{video.snippet.channelTitle}}</span></p>
-                        <p matLine><span> {{video.snippet.description}}</span></p>
-                        <button mat-button (click)="passIndex(i)">
-                            <mat-icon>playlist_add</mat-icon>
-                        </button>
-                    </mat-list-item>
-                </mat-list>
-            </mat-card>
-            <mat-card (resized)="onResized($event)" class="oikeaeka" fxLayout="column" fxFlex="45">
-                <youtube-player
-                        style="margin-bottom: -5px"
-                        [videoId]="id"
-                        (ready)="savePlayer($event)"
-                        (change)="onStateChange($event)">
-                </youtube-player>
-                <div class="buttons" fxLayoutAlign="center center">
-                    <button mat-button (click)="playVideo()">
-                        <mat-icon style="color: white;" [inline]="true">play_arrow</mat-icon>
+                    <mat-form-field class="testi">
+                        <input id="haku" matInput placeholder="Search for songs" [(ngModel)]="data.query" name="query"
+                               color="red">
+                    </mat-form-field>
+                    <button (click)="searchForm()" mat-button style="margin-left: 40px !important;">
+                        <mat-icon matSuffix>search</mat-icon>
                     </button>
-                    <button mat-button (click)="pauseVideo()">
-                        <mat-icon style="color: white;" [inline]="true">pause</mat-icon>
-                    </button>
-                    <button mat-button (click)="skipCurrent()">
-                        <mat-icon style="color: white;" [inline]="true">skip_next</mat-icon>
-                    </button>
-                </div>
 
+                </form>
+            </mat-toolbar>
 
-                <mat-list class="nowplaying" fxLayout="column" *ngFor="let video of data.current"
-                          fxLayoutAlign="start end">
-                    <mat-divider></mat-divider>
-
-                    <div fxLayout="row" fxLayoutAlign="center center" fxFlexFill>
-                        <div fxLayout="row" style="margin-top: 20px" fxLayoutAlign="center center">
-                            <h3 matLine style="font-weight: 600; margin: 5px;"> {{ video.snippet.title }}</h3>
+        </div>
+        <div class="filler">
+        </div>
+        <div class="container">
+            <div fxLayout="row" class="keskii" fxFlex="100" fxLayoutAlign="center start">
+                <mat-card class="vasen" id="vasen">
+                    <div class="searchResault" fxLayoutAlign="space-around center">
+                        <div *ngIf="searchDone">
+                            <h3 matLine style="font-weight: 400"> Page: {{data.pageIndex}}</h3>
+                        </div>
+                        <p *ngIf="!searchDone"> Current top videos: </p>
+                        <div class="page" fxLayoutAlign="end center" *ngIf="searchDone" fxLayout="row">
+                            <button *ngIf="data.previousPageToken" mat-button (click)="previousPage()">
+                                <mat-icon matSuffix>arrow_left</mat-icon>
+                                Previous page
+                            </button>
+                            <button *ngIf="data.nextPageToken" mat-button (click)="nextPage()">
+                                Next page
+                                <mat-icon matPrefix>arrow_right</mat-icon>
+                            </button>
                         </div>
                     </div>
-                    <mat-divider></mat-divider>
-                    <div id="now" class="nowplaying" fxLayout="row" fxLayoutAlign="start end"
-                         style="min-width: 80%;">
-                        <div fxLayout="row" fxFlex="33" fxLayoutAlign="end center">
-                            <p> {{video.statistics.likeCount | numbers}} </p>
-                            <mat-icon style="margin-left: 5px">thumb_up</mat-icon>
-                        </div>
-                        <div fxLayout="row" fxFlex="33" fxLayoutAlign="center center">
-                            <p> {{video.statistics.dislikeCount | numbers}}</p>
-                            <mat-icon style="margin-left: 5px">thumb_down</mat-icon>
-                        </div>
-                        <div fxLayout="column" fxFlex="33" fxLayoutAlign="start center">
-                            <p> Views: {{video.statistics.viewCount | numbers}} </p>
-                        </div>
 
+                    <mat-list *ngIf="data.results">
+                        <mat-list-item class="item" *ngFor="let video of data.results | filter, let i = index">
+                            <img *ngIf="video.snippet.thumbnails" matListAvatar
+                                 [src]="video.snippet.thumbnails.default.url">
+                            <h3 matLine style="font-weight: 600"> {{ video.snippet.title }}</h3>
+                            <p matLine><span style="color: #ff0101"> {{video.snippet.channelTitle}}</span></p>
+                            <p matLine><span> {{video.snippet.description}}</span></p>
+                            <button mat-button (click)="getSongIndex(i)" [matMenuTriggerFor]="rootMenu">
+                                <mat-icon>playlist_add</mat-icon>
+                            </button>
+                            <mat-menu #rootMenu="matMenu">
+                                <button mat-menu-item (click)="passIndex(i)">Add to current playlist</button>
+                                <button mat-menu-item [matMenuTriggerFor]="subMenu">Add to</button>
+                            </mat-menu>
+                            <mat-menu #subMenu="matMenu">
+                                <div *ngFor="let playlist of data.playLists, let k = index">
+                                    <button (click)="addToPlaylist(k, i)" mat-menu-item>{{playlist.name}}</button>
+                                </div>
+                            </mat-menu>
+
+                        </mat-list-item>
+                    </mat-list>
+                </mat-card>
+                <mat-card class="oikeaeka" fxLayout="column">
+                    <div *ngIf="!playlist">
+                        <youtube-player
+                                style="margin-bottom: -10px"
+                                width="450"
+                                height="367"
+                                [videoId]="id"
+                                (ready)="savePlayer($event)"
+                                (change)="onStateChange($event)">
+                        </youtube-player>
+                        <div class="buttons" fxLayoutAlign="center center">
+                            <button mat-button (click)="playVideo()">
+                                <mat-icon style="color: white;" [inline]="true">play_arrow</mat-icon>
+                            </button>
+                            <button mat-button (click)="pauseVideo()">
+                                <mat-icon style="color: white;" [inline]="true">pause</mat-icon>
+                            </button>
+                            <button mat-button (click)="skipCurrent()">
+                                <mat-icon style="color: white;" [inline]="true">skip_next</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="playlist">
+                        <youtube-player
+                                style="margin-bottom: -10px"
+                                width="450"
+                                height="367"
+                                [videoId]="id"
+                                (ready)="savePlayer($event)"
+                                (change)="playListChange($event)">
+                        </youtube-player>
+                        <div class="buttons" fxLayoutAlign="center center">
+                            <button mat-button (click)="playVideo()">
+                                <mat-icon style="color: white;" [inline]="true">play_arrow</mat-icon>
+                            </button>
+                            <button mat-button (click)="pauseVideo()">
+                                <mat-icon style="color: white;" [inline]="true">pause</mat-icon>
+                            </button>
+                            <button mat-button (click)="skipCurrent()">
+                                <mat-icon style="color: white;" [inline]="true">skip_next</mat-icon>
+                            </button>
+                        </div>
                     </div>
 
-                    <div fxFlexFill fxLayoutAlign="center center">
-                        <p>Uploaded by:</p>
-                        <p style="font-weight: 600; color: #ff1142;">&ensp;{{video.snippet.channelTitle}}</p>
-                    </div>
-                    <div fxFlex="10" class="descript" style="overflow-y: auto;">
+                    <mat-list class="nowplaying" fxLayout="column" *ngFor="let video of data.current"
+                              fxLayoutAlign="start end">
                         <mat-divider></mat-divider>
-                        <p class="italic">{{video.snippet.localized.description}}</p>
-                    </div>
-                </mat-list>
-            </mat-card>
+
+                        <div fxLayout="row" fxLayoutAlign="center center" fxFlexFill>
+                            <div fxLayout="row" style="margin-top: 20px" fxLayoutAlign="center center">
+                                <h3 matLine style="font-weight: 600; margin: 5px;"> {{ video.snippet.title }}</h3>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div id="now" class="nowplaying" fxLayout="row" fxLayoutAlign="start end"
+                             style="min-width: 80%;">
+                            <div fxLayout="row" fxFlex="33" fxLayoutAlign="end center">
+                                <p> {{video.statistics.likeCount | numbers}} </p>
+                                <mat-icon style="margin-left: 5px">thumb_up</mat-icon>
+                            </div>
+                            <div fxLayout="row" fxFlex="33" fxLayoutAlign="center center">
+                                <p> {{video.statistics.dislikeCount | numbers}}</p>
+                                <mat-icon style="margin-left: 5px">thumb_down</mat-icon>
+                            </div>
+                            <div fxLayout="column" fxFlex="33" fxLayoutAlign="start center">
+                                <p> Views: {{video.statistics.viewCount | numbers}} </p>
+                            </div>
+
+                        </div>
+
+                        <div fxFlexFill fxLayoutAlign="center center">
+                            <p>Uploaded by:</p>
+                            <p style="font-weight: 600; color: #ff1142;">&ensp;{{video.snippet.channelTitle}}</p>
+                        </div>
+                        <div fxFlex="10" class="descript" style="overflow-y: auto;">
+                            <mat-divider></mat-divider>
+                            <p class="italic">{{video.snippet.localized.description}}</p>
+                        </div>
+                    </mat-list>
+                </mat-card>
+            </div>
+        </div>
+        <div fxFlex="3">
+            <p></p>
         </div>
     </div>
-    <div fxFlex="20" fxFlexOffset="2">
-        <mat-card class="oikeatoka" fxFlex="95" id="playlist">
-            <button mat-button>
-                <p style="color: white;">My playlists</p>
-            </button>
-            <div class="soittolista" fxLayout="row" fxLayoutAlign="space-around center">
-                <p style="color: white !important;">Current Playlist</p>
-            </div>
-            <mat-list *ngIf="lista" id="parent">
-                <mat-list-item id="child" (click)="getThisVideo(i)" class="white"
+    <div fxFlex="20" id="mainCont">
+        <div fxLayout="column">
+            <mat-card class="oikeatoka" fxFlex="95" id="playlist">
+                <div fxLayout="column">
+
+                    <button mat-button class="smaller" style="color: white; width: 100%"
+                            (click)="myBootstrapModal.open()"
+                            (click)="edit()">
+                        Create New Playlist
+                    </button>
+                    <mat-card class="height" [@slideInOut]="open" fxFlex="95" style="margin-bottom: 5px;">
+                        <ngx-smart-modal #myBootstrapModal identifier="myBootstrapModal" [closable]="false"
+                                         customClass="modal-content no-padding">
+                            <div fxLayout="column" fxFlexAlign="center center">
+                                <form class="example-form">
+                                    <mat-form-field class="example-full-width">
+                                        <input style="color: white;" matInput type="text" [(ngModel)]="playlistName"
+                                               [ngModelOptions]="{standalone: true}" required>
+                                        <mat-placeholder class="placeholder">Playlist Name</mat-placeholder>
+                                    </mat-form-field>
+                                </form>
+                                <button mat-button (click)="edit(); createPlaylist()">
+                                    Create Playlist
+                                </button>
+                            </div>
+                        </ngx-smart-modal>
+                    </mat-card>
+                    <button mat-button class="smaller" (click)="showPlayLists()" style="width: 100%; color: white">
+                        My playlists
+                    </button>
+                    <mat-card class="height" [@slideInOut]="playlistOpen">
+                        <mat-list *ngIf="data.playLists">
+                            <mat-list-item *ngFor="let playlist of data.playLists, let i = index">
+                                <div fxLayout="row" id="wrapper" fxLayoutAlign="space-between center">
+                                    <button class="smallbutton" (click)="playListContent(i)" mat-button
+                                            style="color: white;">
+                                        {{playlist.name}}
+                                    </button>
+                                    <mat-divider class="white"></mat-divider>
+                                    <button style="line-height: 0px !important; padding: 5px;" mat-button
+                                            (click)="openDialog(i, 1)">
+                                        <mat-icon>clear</mat-icon>
+                                    </button>
+                                </div>
+                            </mat-list-item>
+                        </mat-list>
+                    </mat-card>
+                    <div class="soittolista" fxLayout="row" fxLayoutAlign="space-around center">
+                        <p class="current">Currently playing: </p>
+                    </div>
+                    <mat-list *ngIf="playlist" id="parent2">
+                        <mat-list-item id="child2" class="white"
+                                       [ngClass]="{'active': false === condition[i], 'inactive': false === !condition[i]}"
+                                       *ngFor="let item of data.currentPlaylist, let i = index">
+                            <img *ngIf="item.thumbnail" matListAvatar
+                                 [src]="item.thumbnail">
+                            <p matLine *ngIf="item.name"><span id="tekstii"
+                                                               (click)="getPlaylistVideo(i)"> {{item.name}} </span></p>
+                            <mat-divider class="white"></mat-divider>
+                            <button style="line-height: 0px !important; padding: 5px;" mat-button
+                                    (click)="openDialog(i, 0)">
+                                <mat-icon>clear</mat-icon>
+                            </button>
+                        </mat-list-item>
+                    </mat-list>
+                    <p id="listEnd" style="margin: 0 !important; font-weight: bold;"></p>
+                </div>
+            </mat-card>
+            <mat-list *ngIf="lista && !playlist" id="parent" class="inactive">
+                <mat-list-item id="child" (click)="getThisVideo(i)"
+                               [ngClass]="{'active': false === condition[i], 'inactive': false === !condition[i]}"
                                *ngFor="let item of lista, let i = index">
                     <img *ngIf="item[0].snippet.thumbnails" matListAvatar
                          [src]="item[0].snippet.thumbnails.default.url">
-                    <p matLine *ngIf="item[0].snippet.title"><span id="teksti"> {{item[0].snippet.title}} </span></p>
+                    <p matLine *ngIf="item[0].snippet.title"><span id="teksti"> {{item[0].snippet.title}} </span>
+                    </p>
                     <mat-divider class="white"></mat-divider>
                     <button style="line-height: 0px !important; padding: 5px;" mat-button (click)="deleteEntry(i)">
                         <mat-icon>clear</mat-icon>
                     </button>
                 </mat-list-item>
             </mat-list>
-            <p id="listEnd" style="margin: 0 !important; font-weight: bold;"></p>
-        </mat-card>
-    </div>
-    <div fxFlex="3">
-        <p></p>
+        </div>
     </div>
 </div>

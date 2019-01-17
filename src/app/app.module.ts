@@ -34,6 +34,8 @@ import {LoginComponent} from './login/login.component';
 import {RouterModule, Routes} from '@angular/router';
 import { ListComponent } from './list/list.component';
 import { PlaylistsComponent } from './playlists/playlists.component';
+import {NgxSmartModalModule} from 'ngx-smart-modal';
+import { DialogComponent } from './dialog/dialog.component';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -60,12 +62,14 @@ const appRoutes: Routes = [
         LoginComponent,
         ListComponent,
         PlaylistsComponent,
+        DialogComponent,
     ],
     imports: [
         RouterModule.forRoot(
             appRoutes,
         ),
         BrowserModule,
+        NgxSmartModalModule.forRoot(),
         FormsModule,
         BrowserAnimationsModule,
         MatButtonModule,
@@ -101,7 +105,10 @@ const appRoutes: Routes = [
         AngularFireStorageModule
     ],
     providers: [VideosService],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [
+        DialogComponent
+    ]
 })
 export class AppModule {
 }

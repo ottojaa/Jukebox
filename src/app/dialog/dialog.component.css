@@ -1,0 +1,13 @@
+.container {
+    height: 100% !important;
+    position: fixed !important;
+    top: 0px !important;
+}
+.mat-dialog-container{
+    background: #212020 !important;
+    color: white !important;
+}
+.red{
+    background: crimson;
+    color: white;
+}

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Videolist} from '../Models/videolist.model';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Router} from '@angular/router';
 import * as firebase from 'firebase';
 import {NgZone} from '@angular/core';
 
@@ -11,16 +11,34 @@ import {NgZone} from '@angular/core';
     providedIn: 'root'
 })
 export class VideosService {
-    constructor(private http: HttpClient, private db: AngularFirestore, public afAuth: AngularFireAuth, private router: Router, private ngZone: NgZone) {
+    constructor(private http: HttpClient,
+                private db: AngularFirestore,
+                public afAuth: AngularFireAuth,
+                private router: Router,
+                private ngZone: NgZone,
+                private afs: AngularFirestore) {
     }
+
     query: string;
     results = new Array();
     public nextPageToken: string;
     public previousPageToken: string;
     currentSearch: string;
     pageIndex = 1;
+    playLists;
     jonoId = 0;
+    playListSongId = 0;
+    user;
     current = new Array();
+    collectionName;
+    currentPlaylist;
+    currentPlaylistName;
+    currentPlaylistId;
+    deletable;
+    deleteId;
+    playListToDelete;
+    dialogRef;
+    deletableIndex;
 
     googleLogin() {
         return new Promise<any>((resolve, reject) => {
@@ -40,6 +58,43 @@ export class VideosService {
         });
     }
 
+    getPlayLists() {
+        return this.afs.collection('users')
+            .doc(this.user.uid)
+            .collection('playlists').valueChanges();
+    }
+    getPlayListItems(index) {
+        this.collectionName = this.playLists[index].name;
+        return this.afs.collection('users')
+            .doc(this.user.uid)
+            .collection('playlists')
+            .doc(this.playLists[index].id)
+            .collection(this.collectionName).valueChanges();
+    }
+    getDeletable(index) {
+        this.collectionName = this.currentPlaylist[index].index;
+        console.log(this.collectionName);
+        console.log(this.currentPlaylistName);
+        console.log(this.currentPlaylistId);
+        console.log(this.collectionName);
+        this.deletable = this.afs.collection('users')
+            .doc(this.user.uid)
+            .collection('playlists')
+            .doc(this.currentPlaylistId)
+            .collection(this.currentPlaylistName)
+            .doc(this.collectionName).delete();
+        console.log(this.deletable);
+
+    }
+
+    deletePlayList(index) {
+        this.playListToDelete = this.playLists[index].id;
+        this.afs.collection('users')
+            .doc(this.user.uid)
+            .collection('playlists')
+            .doc(this.playListToDelete).delete();
+    }
+
     getVideos() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
             ',id&type=video&order=relevance&maxResults=20&q=' + this.query;
@@ -55,17 +110,20 @@ export class VideosService {
         console.log(URL);
         return this.http.get<Videolist>(URL);
     }
+
     getTopVideos() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI' +
             '&part=snippet,id&type=video&order=relevance&maxResults=20&chart=mostPopular';
         return this.http.get<Videolist>(finalURL);
     }
+
     getNextPage() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
             ',id&type=video&order=relevance&pageToken=' + this.nextPageToken + '&maxResults=20&q=' + this.query;
         console.log(finalURL);
         return this.http.get<Videolist>(finalURL);
     }
+
     getPreviousPage() {
         const finalURL = 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBmxXuhbCdCMj8A6lKbAx-o9X0n7ZAG5PI&part=snippet' +
             ',id&type=video&order=relevance&pageToken=' + this.previousPageToken + '&maxResults=20&q=' + this.query;

@@ -1,0 +1,28 @@
+<div *ngIf="data.deleteId === 1" class="black">
+    <mat-dialog-content>
+
+        <mat-dialog-content>
+            <p>Delete playlist?</p>
+        </mat-dialog-content>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button class="mat-raised-button" (click)="close()">No</button>
+        <button class="mat-raised-button red" (click)="delete()">Yes</button>
+    </mat-dialog-actions>
+</div>
+<div *ngIf="data.deleteId === 0" class="black">
+    <mat-dialog-content>
+
+        <mat-dialog-content>
+            <p>Delete from playlist?</p>
+        </mat-dialog-content>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button class="mat-raised-button" (click)="close()">No</button>
+        <button class="mat-raised-button red" (click)="save()">Yes</button>
+    </mat-dialog-actions>
+</div>
