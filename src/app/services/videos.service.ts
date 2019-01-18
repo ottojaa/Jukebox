@@ -108,6 +108,7 @@ export class VideosService {
             ',contentDetails,statistics,status&id='
             + index;
         console.log(URL);
+        console.log(this.current);
         return this.http.get<Videolist>(URL);
     }
 

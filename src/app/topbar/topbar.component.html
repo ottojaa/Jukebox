@@ -2,14 +2,15 @@
     <div fxFlex="20"></div>
     <div fxLayout="column">
         <div fxLayout="row" fxLayoutAlign="center center" class="margin">
-            <mat-toolbar class="search">
+            <mat-toolbar class="search" color="primary">
                 <div class="logo" style="z-index: 99; top: -10px">
                     <img src="assets/img/nuke.png" alt="nukebox" height="140" width="160">
                 </div>
                 <form class="example-form" fxLayout="row" fxLayoutAlign="center center">
 
                     <mat-form-field class="testi">
-                        <input id="haku" matInput placeholder="Search for songs" [(ngModel)]="data.query" name="query"
+                        <input id="haku" matInput placeholder="Search for songs" [(ngModel)]="data.query"
+                               name="query"
                                color="red">
                     </mat-form-field>
                     <button (click)="searchForm()" mat-button style="margin-left: 40px !important;">
@@ -75,7 +76,7 @@
                                 (ready)="savePlayer($event)"
                                 (change)="onStateChange($event)">
                         </youtube-player>
-                        <div class="buttons" fxLayoutAlign="center center">
+                        <div class="buttons" fxLayoutAlign="center center" color="accent">
                             <button mat-button (click)="playVideo()">
                                 <mat-icon style="color: white;" [inline]="true">play_arrow</mat-icon>
                             </button>
@@ -110,22 +111,20 @@
                     </div>
 
                     <mat-list class="nowplaying" fxLayout="column" *ngFor="let video of data.current"
-                              fxLayoutAlign="start end">
-                        <mat-divider></mat-divider>
+                              fxLayoutAlign="center center">
 
                         <div fxLayout="row" fxLayoutAlign="center center" fxFlexFill>
-                            <div fxLayout="row" style="margin-top: 20px" fxLayoutAlign="center center">
-                                <h3 matLine style="font-weight: 600; margin: 5px;"> {{ video.snippet.title }}</h3>
+                            <div fxLayout="row" style="margin-top: 20px" fxLayoutAlign="start center" class="lsa">
+                                <p matLine> {{ video.snippet.title }}</p>
                             </div>
                         </div>
-                        <mat-divider></mat-divider>
                         <div id="now" class="nowplaying" fxLayout="row" fxLayoutAlign="start end"
                              style="min-width: 80%;">
-                            <div fxLayout="row" fxFlex="33" fxLayoutAlign="end center">
+                            <div fxLayout="row" fxFlex="33" fxLayoutAlign="start center">
                                 <p> {{video.statistics.likeCount | numbers}} </p>
                                 <mat-icon style="margin-left: 5px">thumb_up</mat-icon>
                             </div>
-                            <div fxLayout="row" fxFlex="33" fxLayoutAlign="center center">
+                            <div fxLayout="row" fxFlex="33" fxLayoutAlign="start center">
                                 <p> {{video.statistics.dislikeCount | numbers}}</p>
                                 <mat-icon style="margin-left: 5px">thumb_down</mat-icon>
                             </div>
@@ -135,7 +134,7 @@
 
                         </div>
 
-                        <div fxFlexFill fxLayoutAlign="center center">
+                        <div id="margini" fxFlexFill fxLayoutAlign="center center">
                             <p>Uploaded by:</p>
                             <p style="font-weight: 600; color: #ff1142;">&ensp;{{video.snippet.channelTitle}}</p>
                         </div>
@@ -164,7 +163,7 @@
                     <mat-card class="height" [@slideInOut]="open" fxFlex="95" style="margin-bottom: 5px;">
                         <ngx-smart-modal #myBootstrapModal identifier="myBootstrapModal" [closable]="false"
                                          customClass="modal-content no-padding">
-                            <div fxLayout="column" fxFlexAlign="center center">
+                            <div fxLayout="column" fxFlexAlign="center center" style="background: #f062921a !important;">
                                 <form class="example-form">
                                     <mat-form-field class="example-full-width">
                                         <input style="color: white;" matInput type="text" [(ngModel)]="playlistName"
@@ -183,7 +182,7 @@
                     </button>
                     <mat-card class="height" [@slideInOut]="playlistOpen">
                         <mat-list *ngIf="data.playLists">
-                            <mat-list-item *ngFor="let playlist of data.playLists, let i = index">
+                            <mat-list-item *ngFor="let playlist of data.playLists, let i = index" [ngClass]="{'active': false === playlistCondition[i], 'inactive': false === !playlistCondition[i]}">
                                 <div fxLayout="row" id="wrapper" fxLayoutAlign="space-between center">
                                     <button class="smallbutton" (click)="playListContent(i)" mat-button
                                             style="color: white;">
@@ -208,7 +207,8 @@
                             <img *ngIf="item.thumbnail" matListAvatar
                                  [src]="item.thumbnail">
                             <p matLine *ngIf="item.name"><span id="tekstii"
-                                                               (click)="getPlaylistVideo(i)"> {{item.name}} </span></p>
+                                                               (click)="getPlaylistVideo(i)"> {{item.name}} </span>
+                            </p>
                             <mat-divider class="white"></mat-divider>
                             <button style="line-height: 0px !important; padding: 5px;" mat-button
                                     (click)="openDialog(i, 0)">

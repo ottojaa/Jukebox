@@ -20,7 +20,7 @@ interface User {
 @Component({
     selector: 'app-topbar',
     templateUrl: './topbar.component.html',
-    styleUrls: ['./topbar.component.css'],
+    styleUrls: ['./topbar.component.scss'],
     animations: [
         trigger('slideInOut', [
             state('out', style({
@@ -69,6 +69,8 @@ export class TopbarComponent implements OnInit {
     songIndex;
     playlist;
     condition = [];
+    playlistCondition = [];
+    otherTheme = false;
     currentSearch: string;
 
     constructor(public data: VideosService, private afs: AngularFirestore, public ngx: NgxSmartModalService, public dialog: MatDialog) {
@@ -82,6 +84,10 @@ export class TopbarComponent implements OnInit {
             id: this.tempId,
         });
         this.playlistName = '';
+    }
+
+    changeTheme() {
+        this.otherTheme = !this.otherTheme;
     }
 
     showPlayLists() {
@@ -198,6 +204,9 @@ export class TopbarComponent implements OnInit {
             this.condition[this.lastIndex] = true;
         }
         this.player.loadVideoById(this.data.currentPlaylist[index].id);
+        this.data.getQueue(this.data.currentPlaylist[index].id).subscribe(res => {
+            this.data.current = res['items'];
+        });
         this.lastIndex = index;
         this.data.playListSongId = index + 1;
         this.condition[index] = false;
@@ -384,13 +393,16 @@ export class TopbarComponent implements OnInit {
     }
 
     async playListContent(index) {
+        this.playlistCondition = [];
         this.data.getPlayListItems(index).subscribe(data => {
             this.data.currentPlaylist = data;
+            console.log(this.data.currentPlaylist);
             this.data.currentPlaylistName = this.data.playLists[index].name;
             this.data.currentPlaylistId = this.data.playLists[index].id;
             console.log(this.data.currentPlaylist);
         });
         this.playlist = true;
+        this.playlistCondition[index] = false;
         this.condition = [];
     }
 
