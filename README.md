@@ -2,26 +2,20 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.4.
 
-## Development server
+## Use without an account to create a playlist quickly
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Despite utilizing Firebase Realtime DB for saving playlists and videos, this is completely optional and those who merely wish to create a playlist on the fly may do so.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## User account and realtime DB
 
-## Build
+Uses your account for the sole purpose of saving the users' playlist data on the cloud. 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Mobile? TBD
 
-## Running unit tests
+Might get on this once (if) I figure how to force youtube to play on background with browsers, currently not planned
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Feedback
 
-## Running end-to-end tests
+Please give feedback if you have any! Some of the code is still quite messy and there are bugs to be found. All pull requests are welcome!
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
