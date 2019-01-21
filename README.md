@@ -13,7 +13,7 @@ Uses your account for the sole purpose of saving the users' playlist data on the
 
 ## Mobile? TBD
 
-Might get on this once (if) I figure how to force youtube to play on background with browsers, currently not planned
+Might get on this once (if) I figure how to force youtube to play on background with browsers, or do a quick Ionic / Cordova conversion and make an app for it. Currently not planned
 
 ## Feedback
 
