@@ -17,6 +17,21 @@ export class VideosService {
                 private router: Router,
                 private ngZone: NgZone,
                 private afs: AngularFirestore) {
+        this.afAuth.authState.subscribe(user => {
+            console.log('observable toimii');
+            if (user) {
+                localStorage.setItem('user', JSON.stringify(this.user.uid));
+                JSON.parse(localStorage.getItem('user'));
+                console.log('Logged in succesfully');
+            } else {
+                console.log(localStorage.getItem('user'));
+                localStorage.setItem('user', null);
+                JSON.parse(localStorage.getItem('user'));
+            }
+        });
+        firebase.auth().onAuthStateChanged((user => {
+            console.log('onAuth:', user);
+        }));
     }
 
     query: string;
@@ -35,10 +50,14 @@ export class VideosService {
     currentPlaylistName;
     currentPlaylistId;
     deletable;
+    userData;
+    displayName;
     deleteId;
     playListToDelete;
+    deleteFromPlaylist;
     dialogRef;
     deletableIndex;
+    authenticated;
 
     googleLogin() {
         return new Promise<any>((resolve, reject) => {
@@ -49,6 +68,7 @@ export class VideosService {
                 .signInWithPopup(provider)
                 .then(res => {
                     console.log(res);
+                    localStorage.setItem('user', this.afAuth.auth.currentUser.uid);
                     resolve(res);
                     this.ngZone.run(() => (this.router.navigate(['/topbar'])));
                 }, err => {
@@ -57,20 +77,34 @@ export class VideosService {
                 });
         });
     }
+    signOut() {
+        this.afAuth.auth.signOut()
+            .then(() => {
+                this.router.navigate(['']);
+                console.log('toimisitko');
+                localStorage.removeItem('user');
+                window.localStorage.removeItem('firebase:session::http://localhost:4200');
+                /*window.localStorage.removeItem('firebase:session::jukebox-44701.firebaseapp.com');*/
+
+            });
+    }
+
 
     getPlayLists() {
         return this.afs.collection('users')
             .doc(this.user.uid)
             .collection('playlists').valueChanges();
     }
+
     getPlayListItems(index) {
         this.collectionName = this.playLists[index].name;
         return this.afs.collection('users')
             .doc(this.user.uid)
             .collection('playlists')
             .doc(this.playLists[index].id)
-            .collection(this.collectionName).valueChanges();
+            .collection(this.collectionName, ref => ref.orderBy('timeAdded')).valueChanges();
     }
+
     getDeletable(index) {
         this.collectionName = this.currentPlaylist[index].index;
         console.log(this.collectionName);
@@ -93,6 +127,16 @@ export class VideosService {
             .doc(this.user.uid)
             .collection('playlists')
             .doc(this.playListToDelete).delete();
+        this.afs.collection('users')
+            .doc(this.user.uid)
+            .collection('playlists')
+            .doc(this.playListToDelete).collection(this.playLists[index].name).get().subscribe(refs => {
+                refs.forEach(response => {
+                    console.log(response);
+                    response.ref.delete();
+                });
+            });
+
     }
 
     getVideos() {

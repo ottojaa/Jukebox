@@ -9,6 +9,8 @@ import {VideosService} from "../services/videos.service";
 })
 export class DialogComponent {
 
+    result;
+
     constructor(public dialogRef: MatDialogRef<DialogComponent>, public data: VideosService) {
     }
 
@@ -17,8 +19,13 @@ export class DialogComponent {
         this.dialogRef.close();
     }
     save() {
+        if (this.data.deleteFromPlaylist === true) {
+            this.result = true;
+        } else {
+            this.result = false;
+        }
         this.data.getDeletable(this.data.deletableIndex);
-        this.dialogRef.close();
+        this.dialogRef.close(this.result);
     }
 
     close() {

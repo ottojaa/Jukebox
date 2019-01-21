@@ -1,3 +1,10 @@
+<div fxLayout="row" *ngIf="data.displayName" fxLayoutAlign="center center" class="displayName">
+    <p>Currently logged in as: {{data?.displayName}}</p> <button class="but" mat-button (click)="data.signOut()">Sign out</button>
+</div>
+<div fxLayout="row" *ngIf="!data.displayName" fxLayoutAlign="center center" class="displayName">
+    <p>Log in to save and manage your playlists</p> <button class="but" [color]="'success'" mat-button (click)="goToLogin() ">Log In</button>
+</div>
+
 <div fxLayout="row" fxLayoutAlign="center start">
     <div fxFlex="20"></div>
     <div fxLayout="column">
@@ -47,15 +54,17 @@
                         <mat-list-item class="item" *ngFor="let video of data.results | filter, let i = index">
                             <img *ngIf="video.snippet.thumbnails" matListAvatar
                                  [src]="video.snippet.thumbnails.default.url">
-                            <h3 matLine style="font-weight: 600"> {{ video.snippet.title }}</h3>
+                            <h3 id="title" (click)="play(i)" matLine style="font-weight: 600"> {{ video.snippet.title }}</h3>
                             <p matLine><span style="color: #ff0101"> {{video.snippet.channelTitle}}</span></p>
                             <p matLine><span> {{video.snippet.description}}</span></p>
-                            <button mat-button (click)="getSongIndex(i)" [matMenuTriggerFor]="rootMenu">
+                            <button *ngIf="!playlist" mat-button (click)="passIndex(i)">
+                                <mat-icon>playlist_add</mat-icon>
+                            </button>
+                            <button *ngIf="playlist" mat-button (click)="getSongIndex(i)" [matMenuTriggerFor]="rootMenu">
                                 <mat-icon>playlist_add</mat-icon>
                             </button>
                             <mat-menu #rootMenu="matMenu">
-                                <button mat-menu-item (click)="passIndex(i)">Add to current playlist</button>
-                                <button mat-menu-item [matMenuTriggerFor]="subMenu">Add to</button>
+                                <button *ngIf="playlist" mat-menu-item [matMenuTriggerFor]="subMenu">Add to</button>
                             </mat-menu>
                             <mat-menu #subMenu="matMenu">
                                 <div *ngFor="let playlist of data.playLists, let k = index">
@@ -77,13 +86,13 @@
                                 (change)="onStateChange($event)">
                         </youtube-player>
                         <div class="buttons" fxLayoutAlign="center center" color="accent">
-                            <button mat-button (click)="playVideo()">
+                            <button class="playpause" mat-button (click)="playVideo()">
                                 <mat-icon style="color: white;" [inline]="true">play_arrow</mat-icon>
                             </button>
-                            <button mat-button (click)="pauseVideo()">
+                            <button class="playpause" mat-button (click)="pauseVideo()">
                                 <mat-icon style="color: white;" [inline]="true">pause</mat-icon>
                             </button>
-                            <button mat-button (click)="skipCurrent()">
+                            <button class="playpause" mat-button (click)="skipCurrent()">
                                 <mat-icon style="color: white;" [inline]="true">skip_next</mat-icon>
                             </button>
                         </div>
@@ -98,13 +107,13 @@
                                 (change)="playListChange($event)">
                         </youtube-player>
                         <div class="buttons" fxLayoutAlign="center center">
-                            <button mat-button (click)="playVideo()">
+                            <button class="playpause" mat-button (click)="playVideo()">
                                 <mat-icon style="color: white;" [inline]="true">play_arrow</mat-icon>
                             </button>
-                            <button mat-button (click)="pauseVideo()">
+                            <button class="playpause" mat-button (click)="pauseVideo()">
                                 <mat-icon style="color: white;" [inline]="true">pause</mat-icon>
                             </button>
-                            <button mat-button (click)="skipCurrent()">
+                            <button class="playpause" mat-button (click)="skipCurrent()">
                                 <mat-icon style="color: white;" [inline]="true">skip_next</mat-icon>
                             </button>
                         </div>
@@ -155,7 +164,7 @@
             <mat-card class="oikeatoka" fxFlex="95" id="playlist">
                 <div fxLayout="column">
 
-                    <button mat-button class="smaller" style="color: white; width: 100%"
+                    <button *ngIf="data.displayName" mat-button class="smaller" style="color: white; width: 100%"
                             (click)="myBootstrapModal.open()"
                             (click)="edit()">
                         Create New Playlist
@@ -163,7 +172,8 @@
                     <mat-card class="height" [@slideInOut]="open" fxFlex="95" style="margin-bottom: 5px;">
                         <ngx-smart-modal #myBootstrapModal identifier="myBootstrapModal" [closable]="false"
                                          customClass="modal-content no-padding">
-                            <div fxLayout="column" fxFlexAlign="center center" style="background: #f062921a !important;">
+                            <div fxLayout="column" fxFlexAlign="center center"
+                                 style="background: #f062921a !important;">
                                 <form class="example-form">
                                     <mat-form-field class="example-full-width">
                                         <input style="color: white;" matInput type="text" [(ngModel)]="playlistName"
@@ -177,12 +187,13 @@
                             </div>
                         </ngx-smart-modal>
                     </mat-card>
-                    <button mat-button class="smaller" (click)="showPlayLists()" style="width: 100%; color: white">
+                    <button *ngIf="data.displayName" mat-button class="smaller" (click)="showPlayLists()" style="width: 100%; color: white">
                         My playlists
                     </button>
                     <mat-card class="height" [@slideInOut]="playlistOpen">
                         <mat-list *ngIf="data.playLists">
-                            <mat-list-item *ngFor="let playlist of data.playLists, let i = index" [ngClass]="{'active': false === playlistCondition[i], 'inactive': false === !playlistCondition[i]}">
+                            <mat-list-item *ngFor="let playlist of data.playLists, let i = index"
+                                           [ngClass]="{'active': false === playlistCondition[i], 'inactive': false === !playlistCondition[i]}">
                                 <div fxLayout="row" id="wrapper" fxLayoutAlign="space-between center">
                                     <button class="smallbutton" (click)="playListContent(i)" mat-button
                                             style="color: white;">
@@ -198,7 +209,7 @@
                         </mat-list>
                     </mat-card>
                     <div class="soittolista" fxLayout="row" fxLayoutAlign="space-around center">
-                        <p class="current">Currently playing: </p>
+                        <p class="current">Playlist: </p>
                     </div>
                     <mat-list *ngIf="playlist" id="parent2">
                         <mat-list-item id="child2" class="white"

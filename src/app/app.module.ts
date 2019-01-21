@@ -65,9 +65,8 @@ const appRoutes: Routes = [
         DialogComponent,
     ],
     imports: [
-        RouterModule.forRoot(
-            appRoutes,
-        ),
+        [RouterModule.forRoot(
+            appRoutes, {onSameUrlNavigation: 'reload'})],
         BrowserModule,
         NgxSmartModalModule.forRoot(),
         FormsModule,

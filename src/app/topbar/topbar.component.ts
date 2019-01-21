@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {VideosService} from '../services/videos.service';
 import {ViewEncapsulation} from '@angular/core';
 import {ResizedEvent} from 'angular-resize-event/resized-event';
@@ -9,6 +9,8 @@ import {NgxSmartModalService} from 'ngx-smart-modal';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog, MatDialogRef, MatDialogConfig} from '@angular/material';
 import {DialogComponent} from '../dialog/dialog.component';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Router} from '@angular/router';
 
 interface User {
     uid: string;
@@ -42,7 +44,7 @@ interface User {
     encapsulation: ViewEncapsulation.None
 })
 export class TopbarComponent implements OnInit {
-    id = '_Yhyp-_hX2s';
+    id = '';
     private player;
     public ytEvent;
     public lista: any = [];
@@ -50,12 +52,9 @@ export class TopbarComponent implements OnInit {
     videoId = new Array();
     searchDone = false;
     width: any;
-    height: any;
     playlistName;
     user;
-    title: any;
     i: string;
-    fileNameDialogRef: MatDialogRef<DialogComponent>;
     lastIndex = 0;
     public messageSuccess: any;
     public jono = [];
@@ -70,11 +69,17 @@ export class TopbarComponent implements OnInit {
     playlist;
     condition = [];
     playlistCondition = [];
-    otherTheme = false;
-    currentSearch: string;
+    private sub;
 
-    constructor(public data: VideosService, private afs: AngularFirestore, public ngx: NgxSmartModalService, public dialog: MatDialog) {
+    constructor(public data: VideosService,
+                private afs: AngularFirestore,
+                public ngx: NgxSmartModalService,
+                public af: AngularFireAuth,
+                public dialog: MatDialog,
+                private fireAuth: AngularFireAuth,
+                private router: Router,) {
     }
+
 
     createPlaylist() {
         this.tempId = this.afs.createId();
@@ -86,20 +91,34 @@ export class TopbarComponent implements OnInit {
         this.playlistName = '';
     }
 
-    changeTheme() {
-        this.otherTheme = !this.otherTheme;
+    async waitForLoad() {
+        this.id = this.data.results[0].id.videoId;
+        console.log(this.data.results[0].id.videoId);
+        this.player.loadVideoById(this.data.results[0].id.videoId);
     }
 
     showPlayLists() {
         this.playlistOpen = this.playlistOpen === 'out' ? 'in' : 'out';
     }
+
+    goToLogin() {
+        this.router.navigate(['']);
+    }
+
     openDialog(i, x) {
         this.data.deletableIndex = i;
+        this.data.deleteFromPlaylist = true;
         this.data.deleteId = x;
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.autoFocus = true;
-        this.dialog.open(DialogComponent, dialogConfig);
+        const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result);
+            if (result && this.lastIndex === this.data.deletableIndex) {
+                this.skipCurrent(result);
+            }
+        });
     }
 
     addToPlaylist(playListIndex, songIndex) {
@@ -114,6 +133,7 @@ export class TopbarComponent implements OnInit {
             id: this.data.results[songIndex].id.videoId,
             thumbnail: this.data.results[songIndex].snippet.thumbnails.default.url,
             index: this.tempId,
+            timeAdded: Date.now(),
         });
     }
 
@@ -186,6 +206,7 @@ export class TopbarComponent implements OnInit {
     }
 
     getThisVideo(index) {
+        this.condition = [];
         if (this.lastIndex !== index) {
             this.condition[this.lastIndex] = true;
         }
@@ -200,6 +221,7 @@ export class TopbarComponent implements OnInit {
     }
 
     getPlaylistVideo(index) {
+        this.condition = [];
         if (this.lastIndex !== index) {
             this.condition[this.lastIndex] = true;
         }
@@ -268,7 +290,7 @@ export class TopbarComponent implements OnInit {
         }
         if (event.data === 0 && this.playlist) {
             this.id = this.data.currentPlaylist[this.data.playListSongId].id;
-            console.log(this.id);
+            this.condition = [];
             this.lastIndex = this.data.playListSongId;
             this.condition[this.lastIndex - 1] = true;
             this.condition[this.lastIndex] = false;
@@ -277,8 +299,7 @@ export class TopbarComponent implements OnInit {
         }
     }
 
-    skipCurrent() {
-        console.log(this.data.jonoId);
+    skipCurrent(i) {
         if (this.playlist !== true) {
             if (this.jono[this.data.jonoId]) {
                 this.condition[this.lastIndex] = true;
@@ -304,11 +325,24 @@ export class TopbarComponent implements OnInit {
             }
         } else {
             if (this.lastIndex + 1) {
+                if (i = true) {
+                    i = 1;
+                } else {
+                    i = 0;
+                }
                 this.lastIndex = this.data.playListSongId;
-                this.player.loadVideoById(this.data.currentPlaylist[this.data.playListSongId].id);
-                this.condition[this.lastIndex - 1] = true;
-                this.condition[this.lastIndex] = false;
+                this.condition = [];
+                this.player.loadVideoById(this.data.currentPlaylist[this.data.playListSongId - i].id);
+                console.log(this.data.currentPlaylist[this.lastIndex].id);
+                this.data.getQueue(this.data.currentPlaylist[this.lastIndex - i].id).subscribe(res => {
+                    this.data.current = res['items'];
+                    console.log(this.data.current);
+                    console.log(this.data.currentPlaylist);
+                });
+                this.condition[this.lastIndex - 1 - i] = true;
+                this.condition[this.lastIndex - i] = false;
                 this.data.playListSongId += 1;
+                this.data.deleteFromPlaylist = false;
             }
         }
     }
@@ -355,11 +389,21 @@ export class TopbarComponent implements OnInit {
         }, 300);
     }
 
+    play(index) {
+        this.player.loadVideoById(this.videoId[index]);
+        this.data.getQueue(this.videoId[index]).subscribe(res => {
+            this.data.current = res['items'];
+        });
+    }
+
     deleteEntry(index) {
         this.lista.splice(index, 1);
         this.jono.splice(index, 1);
         if (index < this.lastIndex) {
             this.lastIndex -= 1;
+        }
+        if (index === this.lastIndex) {
+            this.condition = [];
         }
         console.log(this.data.jonoId);
         console.log(this.lista);
@@ -370,6 +414,8 @@ export class TopbarComponent implements OnInit {
 
     savePlayer(player) {
         this.player = player;
+        this.waitForLoad();
+        this.pauseVideo();
     }
 
     playVideo() {
@@ -406,18 +452,27 @@ export class TopbarComponent implements OnInit {
         this.condition = [];
     }
 
-    ngOnInit() {
+
+    async ngOnInit() {
+        console.log(this.data.user);
         this.data.getTopVideos().subscribe(data => {
             this.data.results = data['items'];
             console.log(this.data.results);
+            console.log(this.data.results);
+            this.id = this.data.results[0].id.videoId;
             this.data.results.forEach(res => {
                 this.videoId.push(res.id.videoId);
             });
-        });
-        this.data.getQueue(this.id).subscribe(res => {
-            this.data.current = res['items'];
+            this.data.getQueue(this.id).subscribe(res => {
+                this.data.current = res['items'];
+                console.log(this.data.current);
+            });
         });
         this.data.user = firebase.auth().currentUser;
+        if (this.data.user) {
+            console.log('logged in as => ', this.data.user.displayName);
+            this.data.displayName = this.data.user.displayName;
+        }
         const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.data.user.uid}`);
         userRef.ref.get()
             .then(doc => {

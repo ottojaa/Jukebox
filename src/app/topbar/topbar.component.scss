@@ -41,7 +41,13 @@
   height: 100%;
   width: 100%;
   margin-left: 5px;
-  margin-top: 7em;
+  margin-top: 5em;
+}
+.but{
+  line-height: 30px !important;
+  height: 30px;
+  margin-left: 2em !important;
+  background: #d81b60;
 }
 #mainCont
 {
@@ -82,9 +88,12 @@
   background: #ffb5b3a1;
 }
 .mat-button{
-  line-height: 70px !important;
+  line-height: 70px;
   transition: all 0.3s ease;
   min-width: 23px !important;
+}
+.playpause{
+  line-height: 70px !important;
 }
 .smaller{
   height: 50px !important;
@@ -116,6 +125,14 @@
 .item{
   color: black !important;
   background: white;
+
+}
+.item #title{
+  transition: all .1s ease-in-out;
+}
+.item #title:hover{
+  cursor: pointer;
+  color: #af1948;
 }
 .mat-list-item{
   animation: slide-up 0.7s ease;
@@ -154,6 +171,10 @@
   color: black !important;
   transition: all 0.3s ease;
 }
+.displayName{
+  color: white;
+  font-size: 0.9em;
+}
 .mat-card{
   padding: 0px !important;
 }
@@ -175,7 +196,6 @@
 }
 
 .soittolista{
-  z-index: 10;
   position: -webkit-sticky; /* Safari */
   position: sticky;
   top: 0;
@@ -282,19 +302,19 @@ html {
     height: 650px;
   }
   .vasen {
-    width: 500px;
+    width: 570px;
     height: 650px;
   }
   .oikeatoka {
-    margin-top: 5em;
+    margin-top: 3em;
     max-height: 730px;
   }
   .margin{
-    margin-top: 5em;
-    width: 950px;
+    margin-top: 3em;
+    width: 1020px;
   }
   .mat-toolbar{
-    width: 950px;
+    width: 1020px;
   }
 }
 @media (min-width: 768px) and (max-width: 1400px) {
@@ -326,8 +346,11 @@ html {
     height: 850px;
   }
   .oikeatoka {
-    margin-top: 7em;
+    margin-top: 5em;
     max-height: 780px;
+  }
+  .hover:hover{
+    cursor: pointer !important;
   }
   .margin{
     margin-top: 7em;
@@ -361,9 +384,11 @@ html {
 }
 #child{
   color: white !important;
+  cursor: pointer;
 }
 #child2{
   color: white !important;
+  cursor: pointer !important;
 }
 
 @keyframes slide-up {
@@ -375,15 +400,10 @@ html {
 
   }
 }
-#child:hover{
-  cursor: pointer;
-}
+
 #child > *:hover {
   color: #ffda00;
   transition: all 0.3s ease;
-}
-#child2:hover{
-  cursor: pointer;
 }
 #child2 > *:hover {
   color: #ffda00;
