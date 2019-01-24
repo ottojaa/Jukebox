@@ -44,7 +44,7 @@ interface User {
     encapsulation: ViewEncapsulation.None
 })
 export class TopbarComponent implements OnInit {
-    id = '';
+    id = 'm7Bc3pLyij0';
     private player;
     public ytEvent;
     public lista: any = [];
@@ -91,12 +91,6 @@ export class TopbarComponent implements OnInit {
         this.playlistName = '';
     }
 
-    async waitForLoad() {
-        this.id = this.data.results[0].id.videoId;
-        console.log(this.data.results[0].id.videoId);
-        this.player.loadVideoById(this.data.results[0].id.videoId);
-    }
-
     showPlayLists() {
         this.playlistOpen = this.playlistOpen === 'out' ? 'in' : 'out';
     }
@@ -114,10 +108,10 @@ export class TopbarComponent implements OnInit {
         dialogConfig.autoFocus = true;
         const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
         dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
-            if (result && this.lastIndex === this.data.deletableIndex) {
-                this.skipCurrent(result);
+            if (this.data.deletableIndex === this.lastIndex ) {
+                this.condition = [];
             }
+            console.log(result);
         });
     }
 
@@ -299,7 +293,7 @@ export class TopbarComponent implements OnInit {
         }
     }
 
-    skipCurrent(i) {
+    skipCurrent() {
         if (this.playlist !== true) {
             if (this.jono[this.data.jonoId]) {
                 this.condition[this.lastIndex] = true;
@@ -315,34 +309,33 @@ export class TopbarComponent implements OnInit {
                 this.data.getQueue(this.id).subscribe(res => {
                     this.data.current = res['items'];
                 });
-                const i = document.getElementById('status');
-                i.innerHTML = 'Playlist end reached';
-                i.style.background = 'rgba(236, 0, 107, 0.47)';
-                i.style.padding = '4px';
-                i.style.borderRadius = '5px';
-                i.style.width = '30%';
-                i.style.opacity = '1';
+                /*const k = document.getElementById('listEnd');
+                k.innerHTML = 'Playlist end reached';
+                k.style.background = 'rgba(236, 0, 107, 0.47)';
+                k.style.padding = '4px';
+                k.style.borderRadius = '5px';
+                k.style.width = '30%';
+                k.style.opacity = '1';*/
             }
         } else {
-            if (this.lastIndex + 1) {
-                if (i = true) {
-                    i = 1;
-                } else {
-                    i = 0;
-                }
+            if (this.data.currentPlaylist[this.data.playListSongId] + 1) {
+                console.log(this.data.currentPlaylist);
                 this.lastIndex = this.data.playListSongId;
+                console.log(this.lastIndex);
                 this.condition = [];
-                this.player.loadVideoById(this.data.currentPlaylist[this.data.playListSongId - i].id);
+                this.player.loadVideoById(this.data.currentPlaylist[this.data.playListSongId].id);
+                /* lastindex = this.data.playlistongid - i? */
                 console.log(this.data.currentPlaylist[this.lastIndex].id);
-                this.data.getQueue(this.data.currentPlaylist[this.lastIndex - i].id).subscribe(res => {
+                this.data.getQueue(this.data.currentPlaylist[this.lastIndex].id).subscribe(res => {
                     this.data.current = res['items'];
                     console.log(this.data.current);
                     console.log(this.data.currentPlaylist);
                 });
-                this.condition[this.lastIndex - 1 - i] = true;
-                this.condition[this.lastIndex - i] = false;
+                this.condition[this.lastIndex] = false;
                 this.data.playListSongId += 1;
                 this.data.deleteFromPlaylist = false;
+            } else {
+                console.log('lista lobbu');
             }
         }
     }
@@ -414,8 +407,6 @@ export class TopbarComponent implements OnInit {
 
     savePlayer(player) {
         this.player = player;
-        this.waitForLoad();
-        this.pauseVideo();
     }
 
     playVideo() {
@@ -445,7 +436,7 @@ export class TopbarComponent implements OnInit {
             console.log(this.data.currentPlaylist);
             this.data.currentPlaylistName = this.data.playLists[index].name;
             this.data.currentPlaylistId = this.data.playLists[index].id;
-            console.log(this.data.currentPlaylist);
+            console.log(this.data.currentPlaylistId);
         });
         this.playlist = true;
         this.playlistCondition[index] = false;

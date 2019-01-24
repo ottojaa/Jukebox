@@ -227,8 +227,9 @@
                             </button>
                         </mat-list-item>
                     </mat-list>
-                    <p id="listEnd" style="margin: 0 !important; font-weight: bold;"></p>
+
                 </div>
+
             </mat-card>
             <mat-list *ngIf="lista && !playlist" id="parent" class="inactive">
                 <mat-list-item id="child" (click)="getThisVideo(i)"
@@ -243,6 +244,7 @@
                         <mat-icon>clear</mat-icon>
                     </button>
                 </mat-list-item>
+                <p id="listEnd" style="margin: 0 !important; font-weight: bold;"></p>
             </mat-list>
         </div>
     </div>
