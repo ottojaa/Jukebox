@@ -4,16 +4,16 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Use without an account to create a playlist quickly
 
-Despite utilizing Firebase Realtime DB for saving playlists and videos, this is completely optional and those who merely wish to create a playlist on the fly may do so.
+Despite utilizing Firebase Realtime DB for saving playlists and videos, this is completely optional and those who merely wish to create a playlist on the fly may do so. If you create a playlist without creating an account, the playlist will not be saved anywhere. Link for the website, I suggest using Chrome: https://users.metropolia.fi/~ottojaa/angular-jukebox/
 
 
 ## User account and realtime DB
 
 Uses your account for the sole purpose of saving the users' playlist data on the cloud. 
 
-## Mobile? TBD
+## Mobile
 
-Might get on this once (if) I figure how to force youtube to play on background with browsers, or do a quick Ionic / Cordova conversion and make an app for it. Currently not planned
+Developing a mobile version is plausible, if I can circumvent the youtube Data API stopping as soon as the user hits lockscreen. Not currently planned.
 
 ## Feedback
 
