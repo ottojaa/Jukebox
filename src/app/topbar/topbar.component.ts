@@ -89,6 +89,7 @@ export class TopbarComponent implements OnInit {
             id: this.tempId,
         });
         this.playlistName = '';
+        this.playlist = true;
     }
 
     showPlayLists() {
@@ -151,6 +152,7 @@ export class TopbarComponent implements OnInit {
     }
 
     searchForm() {
+        this.data.pageIndex = 1;
         this.data.results = [];
         this.videoId = [];
         this.data.nextPageToken = null;
@@ -472,6 +474,7 @@ export class TopbarComponent implements OnInit {
                     this.createUserDoc();
                 } else {
                     console.log('playlist on olemassa');
+                    this.playlist = true;
                 }
             });
         this.data.getPlayLists().subscribe((playlists => {

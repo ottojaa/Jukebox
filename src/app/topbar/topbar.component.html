@@ -120,15 +120,15 @@
                     </div>
 
                     <mat-list class="nowplaying" fxLayout="column" *ngFor="let video of data.current"
-                              fxLayoutAlign="center center">
+                              fxLayoutAlign="start center">
 
-                        <div fxLayout="row" fxLayoutAlign="center center" fxFlexFill>
-                            <div fxLayout="row" style="margin-top: 20px" fxLayoutAlign="start center" class="lsa">
+                        <div fxFlex="15" fxLayout="row" fxLayoutAlign="start center" style="max-width: 100% !important;">
+                            <div fxLayout="row" style="margin-top: 5px" fxLayoutAlign="start start" class="lsa">
                                 <p matLine> {{ video.snippet.title }}</p>
                             </div>
                         </div>
-                        <div id="now" class="nowplaying" fxLayout="row" fxLayoutAlign="start end"
-                             style="min-width: 80%;">
+                        <div fxFlex="5" id="now" class="nowplaying" fxLayout="row" fxLayoutAlign="start end"
+                             style="width: 70% !important;">
                             <div fxLayout="row" fxFlex="33" fxLayoutAlign="start center">
                                 <p> {{video.statistics.likeCount | numbers}} </p>
                                 <mat-icon style="margin-left: 5px">thumb_up</mat-icon>
@@ -143,11 +143,11 @@
 
                         </div>
 
-                        <div id="margini" fxFlexFill fxLayoutAlign="center center">
+                        <div fxFlex="10" id="margini"  fxLayoutAlign="center center">
                             <p>Uploaded by:</p>
                             <p style="font-weight: 600; color: #ff1142;">&ensp;{{video.snippet.channelTitle}}</p>
                         </div>
-                        <div fxFlex="10" class="descript" style="overflow-y: auto;">
+                        <div fxFlex="70" class="descript" style="overflow-y: auto;">
                             <mat-divider></mat-divider>
                             <p class="italic">{{video.snippet.localized.description}}</p>
                         </div>

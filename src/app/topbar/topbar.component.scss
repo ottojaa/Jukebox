@@ -73,6 +73,7 @@
   background: $accent;
   color: white !important;
   word-wrap: break-word;
+  max-height: 338px;
   font-weight: 400 !important;
   font-size:14px;
   transition: all 0.2s ease;
@@ -83,7 +84,7 @@
 .descript {
   word-wrap: break-word;
   white-space: pre-line;
-  height: 260px;
+  overflow: auto;
   color: #9c9c9c;
 }
 .item:nth-child(odd){
@@ -218,7 +219,6 @@
   color: white;
 }
 .lsa{
-  white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
@@ -240,7 +240,7 @@
   box-shadow: 0px 3px 15px rgba(0,0,0,0.2) !important;
   animation: slide-up 0.7s ease;
   width: 600px;
-  height: 850px;
+  height: 100%;
   overflow-y: auto;
 }
 .oikee{
@@ -255,8 +255,7 @@
   animation: slide-up 0.4s ease;
 }
 .keskii{
-  height: 950px;
-
+  height: 750px;
 }
 #wrapper{
   width: 100%;
@@ -269,7 +268,6 @@
   text-align:center;
   color: #000000;
   width: 450px;
-  height: 850px;
   box-shadow: 0px 0px 0px rgba(0,0,0,0.4) !important;
 
 
@@ -301,11 +299,11 @@ html {
 }
 @media (min-width: 1400px) and (max-width: 2000px){
   .oikeaeka {
-    height: 650px;
+
+    height: 750px;
   }
   .vasen {
-    width: 570px;
-    height: 650px;
+    height: 750px;
   }
   .oikeatoka {
     margin-top: 0em;
@@ -316,27 +314,29 @@ html {
   }
   .margin{
     margin-top: 0em;
-    width: 1020px;
+
   }
   .searchResault {
     padding: 5px !important;
   }
   .mat-toolbar{
-    width: 1020px;
+
     height: 70px !important;
   }
   .playpause{
     line-height: 50px !important;
   }
 }
-@media (min-width: 768px) and (max-width: 1400px) {
+@media (min-width: 268px) and (max-width: 1400px) {
   .oikeaeka {
-
     height: 650px;
   }
   .vasen {
     width: 350px;
     height: 650px;
+  }
+  .nowplaying{
+    max-height: 238px;
   }
   .mat-toolbar{
     height: 70px !important;
@@ -352,7 +352,6 @@ html {
   }
   .oikeatoka {
     margin-top: 0em;
-    max-height: 680px;
   }
   .margin{
     margin-top: 0em;
@@ -374,11 +373,11 @@ input:-webkit-autofill {
 @media (min-width: 2000px) and (max-width: 2900px) {
   .oikeaeka {
 
-    height: 850px;
+    height: 950px;
   }
   .vasen {
     width: 800px;
-    height: 850px;
+    height: 950px;
   }
   .oikeatoka {
     margin-top: 5em;
@@ -390,6 +389,9 @@ input:-webkit-autofill {
   .margin{
     margin-top: 5em;
     width: 1250px;
+  }
+  .nowplaying{
+    max-height: 518px;
   }
   .mat-toolbar{
     width: 1250px;
