@@ -266,6 +266,7 @@
 }
 .oikeaeka{
   text-align:center;
+  background: #212121;
   color: #000000;
   width: 450px;
   box-shadow: 0px 0px 0px rgba(0,0,0,0.4) !important;
@@ -329,14 +330,14 @@ html {
 }
 @media (min-width: 268px) and (max-width: 1400px) {
   .oikeaeka {
-    height: 650px;
+    height: 600px;
   }
   .vasen {
     width: 350px;
-    height: 650px;
+    height: 600px;
   }
   .nowplaying{
-    max-height: 238px;
+    max-height: 188px;
   }
   .mat-toolbar{
     height: 70px !important;
@@ -392,6 +393,7 @@ input:-webkit-autofill {
   }
   .nowplaying{
     max-height: 518px;
+    height: 100%;
   }
   .mat-toolbar{
     width: 1250px;

@@ -120,14 +120,14 @@
                     </div>
 
                     <mat-list class="nowplaying" fxLayout="column" *ngFor="let video of data.current"
-                              fxLayoutAlign="start center">
+                              fxLayoutAlign="center center">
 
                         <div fxFlex="15" fxLayout="row" fxLayoutAlign="start center" style="max-width: 100% !important;">
                             <div fxLayout="row" style="margin-top: 5px" fxLayoutAlign="start start" class="lsa">
                                 <p matLine> {{ video.snippet.title }}</p>
                             </div>
                         </div>
-                        <div fxFlex="5" id="now" class="nowplaying" fxLayout="row" fxLayoutAlign="start end"
+                        <div fxFlex="5" id="now" class="nowplaying" fxLayout="row" fxLayoutAlign="start center"
                              style="width: 70% !important;">
                             <div fxLayout="row" fxFlex="33" fxLayoutAlign="start center">
                                 <p> {{video.statistics.likeCount | numbers}} </p>

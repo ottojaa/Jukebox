@@ -109,7 +109,7 @@ export class TopbarComponent implements OnInit {
         dialogConfig.autoFocus = true;
         const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
         dialogRef.afterClosed().subscribe(result => {
-            if (this.data.deletableIndex === this.lastIndex ) {
+            if (this.data.deletableIndex === this.lastIndex) {
                 this.condition = [];
             }
             console.log(result);
