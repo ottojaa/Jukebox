@@ -1,6 +1,6 @@
 # AngularJukebox
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.4.
+![](src/assets/img/Nukeboxx.png)
 
 ## Use without an account to create a playlist quickly
 
@@ -17,5 +17,5 @@ Developing a mobile version is plausible, if I can circumvent the youtube Data A
 
 ## Feedback
 
-Please give feedback if you have any! Some of the code is still quite messy and there are bugs to be found. All pull requests are welcome!
+Please give feedback if you have any! Some of the code is still quite messy and there are bugs to be found. Pull requests are welcome!
 
