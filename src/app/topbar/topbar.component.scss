@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
 @import "~src/theme.scss";
 
 .mat-toolbar{
@@ -8,7 +8,6 @@
   -moz-box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.15);
   box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.15);
   color: white;
-  font-family: "Montserrat" !important;
   top: -20px;
   padding-top: 10px;
   height: 100px !important;
@@ -17,9 +16,6 @@
 .testi{
   flex: 1;
   width: 80%;
-}
-* {
-  font-family: 'Montserrat', sans-serif;
 }
 .example-form {
   min-width: 60px;
@@ -219,8 +215,6 @@
   color: white;
 }
 .lsa{
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
 }
 #margini{
   margin: 10px;
@@ -266,7 +260,7 @@
 }
 .oikeaeka{
   text-align:center;
-  background: #212121;
+  background: #212121 !important;
   color: #000000;
   width: 450px;
   box-shadow: 0px 0px 0px rgba(0,0,0,0.4) !important;
@@ -298,70 +292,7 @@ html {
   width: 15px;
   height: 50px;
 }
-@media (min-width: 1400px) and (max-width: 2000px){
-  .oikeaeka {
 
-    height: 750px;
-  }
-  .vasen {
-    height: 750px;
-  }
-  .oikeatoka {
-    margin-top: 0em;
-    max-height: 730px;
-  }
-  .testi{
-    font-size: 16px !important;
-  }
-  .margin{
-    margin-top: 0em;
-
-  }
-  .searchResault {
-    padding: 5px !important;
-  }
-  .mat-toolbar{
-
-    height: 70px !important;
-  }
-  .playpause{
-    line-height: 50px !important;
-  }
-}
-@media (min-width: 268px) and (max-width: 1400px) {
-  .oikeaeka {
-    height: 600px;
-  }
-  .vasen {
-    width: 350px;
-    height: 600px;
-  }
-  .nowplaying{
-    max-height: 188px;
-  }
-  .mat-toolbar{
-    height: 70px !important;
-  }
-  .searchResault {
-    padding: 5px !important;
-  }
-  .playpause{
-    line-height: 50px !important;
-  }
-  .testi{
-    font-size: 16px !important;
-  }
-  .oikeatoka {
-    margin-top: 0em;
-  }
-  .margin{
-    margin-top: 0em;
-    width: 800px;
-  }
-  .mat-toolbar{
-    width: 800px;
-  }
-}
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -371,42 +302,9 @@ input:-webkit-autofill:active  {
 input:-webkit-autofill {
   -webkit-text-fill-color: #ffffff !important;
 }
-@media (min-width: 2000px) and (max-width: 2900px) {
-  .oikeaeka {
 
-    height: 950px;
-  }
-  .vasen {
-    width: 800px;
-    height: 950px;
-  }
-  .oikeatoka {
-    margin-top: 5em;
-    max-height: 780px;
-  }
-  .hover:hover{
-    cursor: pointer !important;
-  }
-  .margin{
-    margin-top: 5em;
-    width: 1250px;
-  }
-  .nowplaying{
-    max-height: 518px;
-    height: 100%;
-  }
-  .mat-toolbar{
-    width: 1250px;
-  }
-  .mat-form-field-label{
-    color: white !important;
-  }
-  .mat-form-field-underline {
-    background-color: white !important;;
-  }
-  .mat-form-field-ripple {
-    background-color: white !important;
-  }
+*{
+  font-family: 'Roboto';
 }
 
 .harmaa{
@@ -460,4 +358,116 @@ input:-webkit-autofill {
   transition-property: color;
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
+}
+@media screen
+  and (min-device-width: 1000px)
+  and (max-device-width: 1799px)
+  and (-webkit-min-device-pixel-ratio: 1) {
+  *{
+    font-size: 14px;
+  }
+  .oikeaeka {
+    height: 670px;
+  }
+  .vasen {
+    width: 600px;
+    height: 670px;
+  }
+  .nowplaying{
+    height: 100%;
+    max-height: 258px;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    background: transparent;
+  }
+  .mat-toolbar{
+    height: 70px !important;
+  }
+  .searchResault {
+    padding: 5px !important;
+  }
+  .playpause{
+    line-height: 50px !important;
+  }
+  .testi{
+    font-size: 16px !important;
+  }
+  .oikeatoka {
+    margin-top: 0em;
+  }
+  .margin{
+    margin-top: 0em;
+    width: 1050px;
+  }
+  .mat-toolbar{
+    width: 800px;
+  }
+}
+@media (min-width: 1800px) and (max-width: 2000px){
+  .oikeaeka {
+
+    height: 750px;
+  }
+  .vasen {
+    height: 750px;
+  }
+  .oikeatoka {
+    margin-top: 0em;
+    max-height: 730px;
+  }
+  .testi{
+    font-size: 16px !important;
+  }
+  .margin{
+    margin-top: 0em;
+
+  }
+  .searchResault {
+    padding: 5px !important;
+  }
+  .mat-toolbar{
+
+    height: 70px !important;
+  }
+  .playpause{
+    line-height: 50px !important;
+  }
+}
+@media (min-width: 2001px) and (max-width: 2900px) {
+  .oikeaeka {
+
+    height: 950px;
+  }
+  .vasen {
+    width: 800px;
+    height: 950px;
+  }
+  .oikeatoka {
+    margin-top: 5em;
+    max-height: 780px;
+  }
+  .hover:hover{
+    cursor: pointer !important;
+  }
+  .margin{
+    margin-top: 5em;
+    width: 1250px;
+  }
+  .nowplaying{
+    max-height: 518px;
+    height: 100%;
+  }
+  .mat-toolbar{
+    width: 1250px;
+  }
+  .mat-form-field-label{
+    color: white !important;
+  }
+  .mat-form-field-underline {
+    background-color: white !important;;
+  }
+  .mat-form-field-ripple {
+    background-color: white !important;
+  }
 }

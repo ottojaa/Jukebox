@@ -35,7 +35,7 @@
                 <mat-card class="vasen" id="vasen">
                     <div class="searchResault" fxLayoutAlign="space-around center">
                         <div *ngIf="searchDone">
-                            <h3 matLine style="font-weight: 400"> Page: {{data.pageIndex}}</h3>
+                            <h3 matLine style="font-weight: 200"> Page: {{data.pageIndex}}</h3>
                         </div>
                         <p *ngIf="!searchDone"> Current top videos: </p>
                         <div class="page" fxLayoutAlign="end center" *ngIf="searchDone" fxLayout="row">
@@ -54,7 +54,7 @@
                         <mat-list-item class="item" *ngFor="let video of data.results | filter, let i = index">
                             <img *ngIf="video.snippet.thumbnails" matListAvatar
                                  [src]="video.snippet.thumbnails.default.url">
-                            <h3 id="title" (click)="play(i)" matLine style="font-weight: 600"> {{ video.snippet.title }}</h3>
+                            <h3 id="title" (click)="play(i)" matLine style="font-weight: 450"> {{ video.snippet.title }}</h3>
                             <p matLine><span style="color: #ff0101"> {{video.snippet.channelTitle}}</span></p>
                             <p matLine><span> {{video.snippet.description}}</span></p>
                             <button *ngIf="!playlist" mat-button (click)="passIndex(i)">
